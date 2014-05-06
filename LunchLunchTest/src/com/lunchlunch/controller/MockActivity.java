@@ -24,8 +24,10 @@ public class MockActivity extends Activity {
 	public Intent getIntentToStart() {
 		return intentToStart;
 	}
+
 	@Override
 	public String getPackageName() {
 		return "";
 	}
+
 }

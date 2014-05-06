@@ -13,7 +13,7 @@ import javax.inject.Provider;
 public final class LoginTest$TestModule$$ModuleAdapter extends ModuleAdapter<LoginTest.TestModule> {
   private static final String[] INJECTS = { "members/com.lunchlunch.view.login.LoginTest", };
   private static final Class<?>[] STATIC_INJECTIONS = { };
-  private static final Class<?>[] INCLUDES = { com.lunchlunch.webcomm.login.LoginHelperProvider.class, };
+  private static final Class<?>[] INCLUDES = { com.lunchlunch.webcomm.login.LoginHelperProvider.class, com.lunchlunch.controller.CommandDispatcherProvider.class, com.lunchlunch.view.DialogHandlerProvider.class, };
 
   public LoginTest$TestModule$$ModuleAdapter() {
     super(com.lunchlunch.view.login.LoginTest.TestModule.class, INJECTS, STATIC_INJECTIONS, true /*overrides*/, INCLUDES, true /*complete*/, true /*library*/);
@@ -30,34 +30,35 @@ public final class LoginTest$TestModule$$ModuleAdapter extends ModuleAdapter<Log
    */
   @Override
   public void getBindings(BindingsGroup bindings, LoginTest.TestModule module) {
-    bindings.contributeProvidesBinding("com.lunchlunch.controller.CommandDispatcherInterface", new ProvideCommandDispatcherProvidesAdapter(module));
+    bindings.contributeProvidesBinding("com.lunchlunch.view.DialogHandlerInterface", new ProvideDialogHandlerProvidesAdapter(module));
     bindings.contributeProvidesBinding("com.lunchlunch.webcomm.login.LoginHelperInterface", new ProvideLoginHelperProvidesAdapter(module));
+    bindings.contributeProvidesBinding("com.lunchlunch.controller.CommandDispatcherInterface", new ProvideCommandDispatcherProvidesAdapter(module));
   }
 
   /**
-   * A {@code Binding<com.lunchlunch.controller.CommandDispatcherInterface>} implementation which satisfies
+   * A {@code Binding<com.lunchlunch.view.DialogHandlerInterface>} implementation which satisfies
    * Dagger's infrastructure requirements including:
    *
-   * Being a {@code Provider<com.lunchlunch.controller.CommandDispatcherInterface>} and handling creation and
+   * Being a {@code Provider<com.lunchlunch.view.DialogHandlerInterface>} and handling creation and
    * preparation of object instances.
    */
-  public static final class ProvideCommandDispatcherProvidesAdapter extends ProvidesBinding<com.lunchlunch.controller.CommandDispatcherInterface>
-      implements Provider<com.lunchlunch.controller.CommandDispatcherInterface> {
+  public static final class ProvideDialogHandlerProvidesAdapter extends ProvidesBinding<com.lunchlunch.view.DialogHandlerInterface>
+      implements Provider<com.lunchlunch.view.DialogHandlerInterface> {
     private final LoginTest.TestModule module;
 
-    public ProvideCommandDispatcherProvidesAdapter(LoginTest.TestModule module) {
-      super("com.lunchlunch.controller.CommandDispatcherInterface", IS_SINGLETON, "com.lunchlunch.view.login.LoginTest.TestModule", "provideCommandDispatcher");
+    public ProvideDialogHandlerProvidesAdapter(LoginTest.TestModule module) {
+      super("com.lunchlunch.view.DialogHandlerInterface", IS_SINGLETON, "com.lunchlunch.view.login.LoginTest.TestModule", "provideDialogHandler");
       this.module = module;
       setLibrary(true);
     }
 
     /**
      * Returns the fully provisioned instance satisfying the contract for
-     * {@code Provider<com.lunchlunch.controller.CommandDispatcherInterface>}.
+     * {@code Provider<com.lunchlunch.view.DialogHandlerInterface>}.
      */
     @Override
-    public com.lunchlunch.controller.CommandDispatcherInterface get() {
-      return module.provideCommandDispatcher();
+    public com.lunchlunch.view.DialogHandlerInterface get() {
+      return module.provideDialogHandler();
     }
   }
 
@@ -85,6 +86,33 @@ public final class LoginTest$TestModule$$ModuleAdapter extends ModuleAdapter<Log
     @Override
     public com.lunchlunch.webcomm.login.LoginHelperInterface get() {
       return module.provideLoginHelper();
+    }
+  }
+
+  /**
+   * A {@code Binding<com.lunchlunch.controller.CommandDispatcherInterface>} implementation which satisfies
+   * Dagger's infrastructure requirements including:
+   *
+   * Being a {@code Provider<com.lunchlunch.controller.CommandDispatcherInterface>} and handling creation and
+   * preparation of object instances.
+   */
+  public static final class ProvideCommandDispatcherProvidesAdapter extends ProvidesBinding<com.lunchlunch.controller.CommandDispatcherInterface>
+      implements Provider<com.lunchlunch.controller.CommandDispatcherInterface> {
+    private final LoginTest.TestModule module;
+
+    public ProvideCommandDispatcherProvidesAdapter(LoginTest.TestModule module) {
+      super("com.lunchlunch.controller.CommandDispatcherInterface", IS_SINGLETON, "com.lunchlunch.view.login.LoginTest.TestModule", "provideCommandDispatcher");
+      this.module = module;
+      setLibrary(true);
+    }
+
+    /**
+     * Returns the fully provisioned instance satisfying the contract for
+     * {@code Provider<com.lunchlunch.controller.CommandDispatcherInterface>}.
+     */
+    @Override
+    public com.lunchlunch.controller.CommandDispatcherInterface get() {
+      return module.provideCommandDispatcher();
     }
   }
 }

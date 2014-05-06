@@ -23,6 +23,7 @@ import javax.inject.Provider;
 public final class Login$$InjectAdapter extends Binding<Login>
     implements Provider<Login>, MembersInjector<Login> {
   private Binding<Provider<com.lunchlunch.controller.CommandDispatcherInterface>> commandDispatcherProvider;
+  private Binding<Provider<com.lunchlunch.view.DialogHandlerInterface>> dialogHandler;
   private Binding<Provider<com.lunchlunch.webcomm.login.LoginHelperInterface>> loginHelper;
 
   public Login$$InjectAdapter() {
@@ -37,6 +38,7 @@ public final class Login$$InjectAdapter extends Binding<Login>
   @SuppressWarnings("unchecked")
   public void attach(Linker linker) {
     commandDispatcherProvider = (Binding<Provider<com.lunchlunch.controller.CommandDispatcherInterface>>) linker.requestBinding("javax.inject.Provider<com.lunchlunch.controller.CommandDispatcherInterface>", Login.class, getClass().getClassLoader());
+    dialogHandler = (Binding<Provider<com.lunchlunch.view.DialogHandlerInterface>>) linker.requestBinding("javax.inject.Provider<com.lunchlunch.view.DialogHandlerInterface>", Login.class, getClass().getClassLoader());
     loginHelper = (Binding<Provider<com.lunchlunch.webcomm.login.LoginHelperInterface>>) linker.requestBinding("javax.inject.Provider<com.lunchlunch.webcomm.login.LoginHelperInterface>", Login.class, getClass().getClassLoader());
   }
 
@@ -47,6 +49,7 @@ public final class Login$$InjectAdapter extends Binding<Login>
   @Override
   public void getDependencies(Set<Binding<?>> getBindings, Set<Binding<?>> injectMembersBindings) {
     injectMembersBindings.add(commandDispatcherProvider);
+    injectMembersBindings.add(dialogHandler);
     injectMembersBindings.add(loginHelper);
   }
 
@@ -68,6 +71,7 @@ public final class Login$$InjectAdapter extends Binding<Login>
   @Override
   public void injectMembers(Login object) {
     object.commandDispatcherProvider = commandDispatcherProvider.get();
+    object.dialogHandler = dialogHandler.get();
     object.loginHelper = loginHelper.get();
   }
 

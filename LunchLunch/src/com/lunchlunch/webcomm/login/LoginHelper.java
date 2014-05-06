@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.os.AsyncTask;
 
+import com.lunchlunch.LunchBuddyConstants;
 import com.lunchlunch.model.person.NullPerson;
 import com.lunchlunch.model.person.PersonInterface;
 import com.lunchlunch.webcomm.HttpClientBuilderInterface;
@@ -24,7 +25,6 @@ public class LoginHelper implements LoginHelperInterface {
 
 	private class LoginTask extends AsyncTask<String, Void, PersonInterface> {
 
-		private static final String SERVICE_URL = "http://10.0.2.2:3000";
 		private String email;
 		private PersonReceiver personReceiver;
 
@@ -37,8 +37,8 @@ public class LoginHelper implements LoginHelperInterface {
 		protected PersonInterface doInBackground(String... params) {
 			HttpClient client = httpClientBuilder.buildConnection();
 			try {
-				HttpGet httpGet = new HttpGet(SERVICE_URL + "/login?email="
-						+ email);
+				HttpGet httpGet = new HttpGet(LunchBuddyConstants.SERVICE_URL
+						+ "/login?email=" + email);
 
 				HttpResponse response = client.execute(httpGet);
 				HttpEntity entity = response.getEntity();

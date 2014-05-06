@@ -9,5 +9,6 @@
     <string name="title_lunch_detail">Lunch Detail</string>
     <string name="title_activity_some">SomeActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="login_error">The email you entered does not exist, please try again.</string>
 
 </resources>

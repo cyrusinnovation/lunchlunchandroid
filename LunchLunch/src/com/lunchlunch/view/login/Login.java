@@ -19,6 +19,8 @@ import com.lunchlunch.controller.LoginCommand;
 import com.lunchlunch.model.LunchBuddySession;
 import com.lunchlunch.model.person.NullPerson;
 import com.lunchlunch.model.person.PersonInterface;
+import com.lunchlunch.view.DialogHandlerInterface;
+import com.lunchlunch.view.DialogHandlerProvider;
 import com.lunchlunch.webcomm.PersonReceiver;
 import com.lunchlunch.webcomm.login.LoginHelperInterface;
 import com.lunchlunch.webcomm.login.LoginHelperProvider;
@@ -35,6 +37,9 @@ public class Login extends Activity implements PersonReceiver {
 	@Inject
 	Provider<CommandDispatcherInterface> commandDispatcherProvider;
 
+	@Inject
+	Provider<DialogHandlerInterface> dialogHandler;
+
 	public Login() {
 
 	}
@@ -45,7 +50,8 @@ public class Login extends Activity implements PersonReceiver {
 
 		LunchBuddyApp application = (LunchBuddyApp) getApplication();
 		activityGraph = application.getApplicationGraph().plus(
-				new LoginHelperProvider(), new CommandDispatcherProvider());
+				new LoginHelperProvider(), new CommandDispatcherProvider(),
+				new DialogHandlerProvider());
 
 		activityGraph.inject(this);
 		setContentView(R.layout.fragment_login);
@@ -88,6 +94,9 @@ public class Login extends Activity implements PersonReceiver {
 			commandDispatcherProvider.get().execute(
 					new LoginCommand(person, LunchBuddySession.SINGLETON, this,
 							ActivityStarter.SINGLETON));
+		} else {
+			dialogHandler.get().showErrorDialog(this,
+					getString(R.string.login_error));
 		}
 	}
 

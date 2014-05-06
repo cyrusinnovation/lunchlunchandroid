@@ -13,10 +13,14 @@ import com.lunchlunch.LunchTestCase;
 import com.lunchlunch.R;
 import com.lunchlunch.controller.ActivityStarter;
 import com.lunchlunch.controller.CommandDispatcherInterface;
+import com.lunchlunch.controller.CommandDispatcherProvider;
 import com.lunchlunch.controller.LoginCommand;
 import com.lunchlunch.model.LunchBuddySession;
 import com.lunchlunch.model.person.MockPerson;
 import com.lunchlunch.model.person.NullPerson;
+import com.lunchlunch.view.DialogHandlerInterface;
+import com.lunchlunch.view.DialogHandlerProvider;
+import com.lunchlunch.view.MockDialogHandler;
 import com.lunchlunch.webcomm.PersonReceiver;
 import com.lunchlunch.webcomm.login.LoginHelperInterface;
 import com.lunchlunch.webcomm.login.LoginHelperProvider;
@@ -32,6 +36,8 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 
 	private static MockLoginHelper loginHelper;
 
+	private static MockDialogHandler dialogHandler;
+
 	public LoginTest() {
 		super(Login.class);
 	}
@@ -44,6 +50,7 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 		setApplication(application);
 		loginHelper = new MockLoginHelper();
 		commandDispatcher = new MockCommandDispatcher();
+		dialogHandler = new MockDialogHandler();
 		Intent intent = new Intent(getInstrumentation().getTargetContext(),
 				Login.class);
 		startActivity(intent, null, null);
@@ -58,7 +65,8 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 		super.tearDown();
 	}
 
-	@Module(includes = LoginHelperProvider.class, injects = LoginTest.class, overrides = true, library = true)
+	@Module(includes = { LoginHelperProvider.class,
+			CommandDispatcherProvider.class, DialogHandlerProvider.class }, injects = LoginTest.class, overrides = true, library = true)
 	static class TestModule {
 
 		@Provides
@@ -71,6 +79,12 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 		@Singleton
 		CommandDispatcherInterface provideCommandDispatcher() {
 			return commandDispatcher;
+		}
+
+		@Provides
+		@Singleton
+		DialogHandlerInterface provideDialogHandler() {
+			return dialogHandler;
 		}
 	}
 
@@ -119,4 +133,12 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 		assertNull(commandDispatcher.getLastCommandExecuted());
 	}
 
+	public void testWhenANullPersonIsReturnedFromTheProviderShowAnErrorMessage()
+			throws Exception {
+		Login activity = getActivity();
+		activity.personReceived(NullPerson.NULL);
+		assertEquals(activity, dialogHandler.getBaseContextForLastErrorDialog());
+		assertEquals(activity.getString(R.string.login_error),
+				dialogHandler.getErrorMessageForLastErrorDialog());
+	}
 }

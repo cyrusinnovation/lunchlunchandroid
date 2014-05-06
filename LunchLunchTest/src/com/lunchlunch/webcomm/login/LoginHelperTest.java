@@ -63,8 +63,8 @@ public class LoginHelperTest extends LunchTestCase {
 		HttpGet httpGet = assertIsOfTypeAndGet(HttpGet.class,
 				httpClientToReturn.getRequestPassedToExecute());
 
-		assertEquals(new URI("http://localhost:3000/login?email=" + email),
-				httpGet.getURI());
+		assertEquals(new URI(com.lunchlunch.LunchBuddyConstants.SERVICE_URL
+				+ "/login?email=" + email), httpGet.getURI());
 	}
 
 	@UiThreadTest
