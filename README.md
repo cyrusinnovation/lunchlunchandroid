@@ -1,12 +1,11 @@
 lunchlunchandroid
 =================
-# README.md
 
 This is simply a stab at the proper patterns for an Android implementation of the mobile client for Lunch Buddy.
 
 ## Development setup
 - I have been using the '[ADT(Android Development Tools)](http://developer.android.com/sdk/installing/bundle.html)' version of Eclipse to do development.
-- I have been using Dagger dependency injection package to deal with dependency injection and testing in the Activities. For instructions on '[setting up Dagger in Eclipse](http://www.thekeyconsultant.com/2013/09/adding-dagger-to-your-android-project.html)'
+- I have been using Dagger dependency injection package to deal with dependency injection and testing in the Activities. For instructions on [setting up Dagger in Eclipse](http://www.thekeyconsultant.com/2013/09/adding-dagger-to-your-android-project.html)
 
 ## Testing
 - Even though there is an Android SDK that provides you with classes and methods, most of the methods throw exceptions if you simply try to run them.
