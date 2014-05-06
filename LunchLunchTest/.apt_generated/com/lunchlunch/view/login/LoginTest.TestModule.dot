@@ -1,0 +1,7 @@
+digraph G1 {
+  concentrate = true;
+  n2 [label="Provider<com.lunchlunch.controller.CommandDispatcherInterface>"];
+  Login -> n2;
+  n3 [label="Provider<com.lunchlunch.webcomm.login.LoginHelperInterface>"];
+  Login -> n3;
+}
