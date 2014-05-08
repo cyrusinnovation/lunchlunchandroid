@@ -10,13 +10,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.lunchlunch.LunchBuddyConstants;
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 import com.lunchlunch.model.lunch.LunchInterface;
 import com.lunchlunch.model.person.MockPerson;
 import com.lunchlunch.model.person.Person;
 import com.lunchlunch.model.person.PersonInterface;
 
-public class LunchParserTest extends LunchTestCase {
+public class LunchParserTest extends LunchBuddyTestCase {
 	public void testImplementsInterface() throws Exception {
 		assertEquals(LunchParserInterface.class,
 				LunchParser.class.getInterfaces()[0]);

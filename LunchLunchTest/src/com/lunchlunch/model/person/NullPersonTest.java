@@ -1,8 +1,8 @@
 package com.lunchlunch.model.person;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 
-public class NullPersonTest extends LunchTestCase {
+public class NullPersonTest extends LunchBuddyTestCase {
 	
 	public void testIsASingleton() throws Exception {
 		assertEquals(0, NullPerson.class.getConstructors().length);

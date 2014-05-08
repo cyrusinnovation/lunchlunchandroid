@@ -1,8 +1,8 @@
 package com.lunchlunch.controller;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 
-public class CommandDispatcherTest extends LunchTestCase {
+public class CommandDispatcherTest extends LunchBuddyTestCase {
 	public void testImplementsInterface() throws Exception {
 		assertEquals(CommandDispatcherInterface.class,
 				CommandDispatcher.class.getInterfaces()[0]);

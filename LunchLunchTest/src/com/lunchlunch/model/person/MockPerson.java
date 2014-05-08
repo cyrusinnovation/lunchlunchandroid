@@ -1,5 +1,7 @@
 package com.lunchlunch.model.person;
 
+import android.os.Parcel;
+
 public class MockPerson implements PersonInterface {
 
 	@Override
@@ -20,6 +22,16 @@ public class MockPerson implements PersonInterface {
 	@Override
 	public String getId() {
 		return null;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+
 	}
 
 }

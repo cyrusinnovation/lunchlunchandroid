@@ -4,9 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import android.os.Parcel;
+
+import com.lunchlunch.LunchBuddyConstants;
 import com.lunchlunch.model.person.PersonInterface;
 
 public class Lunch implements LunchInterface {
+
 	private final SimpleDateFormat lunchDateFormatter = new SimpleDateFormat(
 			"M/d/yyyy 'at' h:mm a", Locale.getDefault());
 	private PersonInterface person1;
@@ -38,4 +42,19 @@ public class Lunch implements LunchInterface {
 	public String toString() {
 		return lunchDateFormatter.format(dateTime);
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeParcelable(person1, flags);
+		dest.writeParcelable(person2, flags);
+		SimpleDateFormat dateFormatter = new SimpleDateFormat(
+				LunchBuddyConstants.JSON_DATE_FORMAT, Locale.getDefault());
+		dest.writeString(dateFormatter.format(dateTime));
+	}
+
 }

@@ -1,13 +1,13 @@
 package com.lunchlunch.controller;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 import com.lunchlunch.controller.Command;
 import com.lunchlunch.model.MockSession;
 import com.lunchlunch.model.person.MockPerson;
 import com.lunchlunch.view.login.Login;
 import com.lunchlunch.view.lunches.LunchListActivity;
 
-public class LoginCommandTest extends LunchTestCase {
+public class LoginCommandTest extends LunchBuddyTestCase {
 
 	public void testIsACommand() throws Exception {
 		assertEquals(Command.class, LoginCommand.class.getInterfaces()[0]);

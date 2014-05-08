@@ -2,9 +2,9 @@ package com.lunchlunch.view;
 
 import android.app.AlertDialog;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 
-public class AlertDialogProviderTest extends LunchTestCase {
+public class AlertDialogProviderTest extends LunchBuddyTestCase {
 	public void testIsOfInterface() throws Exception {
 		assertEquals(AlertDialogProviderInterface.class,
 				AlertDialogProvider.class.getInterfaces()[0]);

@@ -2,9 +2,9 @@ package com.lunchlunch.webcomm;
 
 import java.io.ByteArrayInputStream;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 
-public class ResponseHelperTest extends LunchTestCase {
+public class ResponseHelperTest extends LunchBuddyTestCase {
 
 	public void testGetResponseContentsAsString() throws Exception {
 		MockHttpResponse response = new MockHttpResponse();

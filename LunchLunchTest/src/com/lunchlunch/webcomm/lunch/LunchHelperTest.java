@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 import android.test.UiThreadTest;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 import com.lunchlunch.model.lunch.LunchInterface;
 import com.lunchlunch.model.lunch.MockLunch;
 import com.lunchlunch.model.person.MockPerson;
@@ -25,7 +25,7 @@ import com.lunchlunch.webcomm.MockHttpEntity;
 import com.lunchlunch.webcomm.MockHttpResponse;
 import com.lunchlunch.webcomm.person.MockPersonParser;
 
-public class LunchHelperTest extends LunchTestCase {
+public class LunchHelperTest extends LunchBuddyTestCase {
 
 	private CountDownLatch countdown;
 

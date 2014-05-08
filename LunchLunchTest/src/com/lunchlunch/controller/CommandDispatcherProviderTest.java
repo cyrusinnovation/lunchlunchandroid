@@ -1,8 +1,8 @@
 package com.lunchlunch.controller;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 
-public class CommandDispatcherProviderTest extends LunchTestCase {
+public class CommandDispatcherProviderTest extends LunchBuddyTestCase {
 
 	public void testIsASingleton() throws Exception {
 		assertEquals(0,

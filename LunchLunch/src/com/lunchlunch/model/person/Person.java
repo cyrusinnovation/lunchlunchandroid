@@ -1,5 +1,7 @@
 package com.lunchlunch.model.person;
 
+import android.os.Parcel;
+
 public class Person implements PersonInterface {
 
 	private String id;
@@ -57,6 +59,20 @@ public class Person implements PersonInterface {
 				&& this.firstName.equals(other.firstName)
 				&& this.id.equals(other.id)
 				&& this.lastName.equals(other.lastName);
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+
+		dest.writeString(id);
+		dest.writeString(firstName);
+		dest.writeString(lastName);
+		dest.writeString(email);
 	}
 
 }

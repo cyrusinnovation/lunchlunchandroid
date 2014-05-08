@@ -2,6 +2,8 @@ package com.lunchlunch.model.lunch;
 
 import java.util.Date;
 
+import android.os.Parcel;
+
 import com.lunchlunch.model.person.PersonInterface;
 
 public class MockLunch implements LunchInterface {
@@ -19,6 +21,16 @@ public class MockLunch implements LunchInterface {
 	@Override
 	public Date getDateTime() {
 		return null;
+	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+
 	}
 
 }

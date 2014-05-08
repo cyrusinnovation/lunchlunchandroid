@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.lunchlunch.LunchBuddyApp;
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 import com.lunchlunch.R;
 import com.lunchlunch.controller.ActivityStarter;
 import com.lunchlunch.controller.CommandDispatcherProviderTestUtility;
@@ -75,12 +75,12 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 			throws Exception {
 
 		Login activity = getActivity();
-		EditText emailTextField = LunchTestCase.assertIsOfTypeAndGet(
+		EditText emailTextField = LunchBuddyTestCase.assertIsOfTypeAndGet(
 				EditText.class, activity.findViewById(R.id.emailTextField));
 		String textFieldContents = "thisisinthetextfield";
 		emailTextField.setText(textFieldContents);
 
-		Button loginButton = LunchTestCase.assertIsOfTypeAndGet(Button.class,
+		Button loginButton = LunchBuddyTestCase.assertIsOfTypeAndGet(Button.class,
 				activity.findViewById(R.id.loginButton));
 		activity.loginClicked(loginButton);
 		assertEquals(textFieldContents, loginHelper.getEmailPassedToLogin());
@@ -92,7 +92,7 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 		Login activity = getActivity();
 		MockPerson personToReturn = new MockPerson();
 		activity.personReceived(personToReturn);
-		LoginCommand loginCommand = LunchTestCase.assertIsOfTypeAndGet(
+		LoginCommand loginCommand = LunchBuddyTestCase.assertIsOfTypeAndGet(
 				LoginCommand.class, commandDispatcher.getLastCommandExecuted());
 		assertEquals(activity, loginCommand.getBaseLoginActivity());
 		assertEquals(personToReturn, loginCommand.getPersonToLogIn());

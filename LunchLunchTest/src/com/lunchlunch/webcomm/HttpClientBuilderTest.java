@@ -3,9 +3,9 @@ package com.lunchlunch.webcomm;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 
-public class HttpClientBuilderTest extends LunchTestCase {
+public class HttpClientBuilderTest extends LunchBuddyTestCase {
 
 	public void testWillBuildHttpClient() throws Exception {
 

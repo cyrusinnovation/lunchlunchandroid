@@ -3,9 +3,12 @@ package com.lunchlunch.view.lunches;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 import com.lunchlunch.model.LunchBuddySession;
 import com.lunchlunch.model.lunch.LunchInterface;
 import com.lunchlunch.model.lunch.MockLunch;
@@ -16,6 +19,22 @@ import com.lunchlunch.webcomm.lunch.LunchReceiver;
 import com.lunchlunch.webcomm.lunch.MockLunchHelper;
 
 public class LunchListFragmentTest extends FragmentTestCase<LunchListActivity> {
+
+	public class MockLunchActivity extends Activity implements
+			LunchListFragment.Callbacks {
+
+		private LunchInterface lunchPassedIn;
+
+		@Override
+		public void onItemSelect(LunchInterface lunch) {
+			this.lunchPassedIn = lunch;
+		}
+
+		public LunchInterface getLunchPassedIn() {
+			return lunchPassedIn;
+		}
+
+	}
 
 	public LunchListFragmentTest() {
 		super(LunchListActivity.class);
@@ -68,7 +87,7 @@ public class LunchListFragmentTest extends FragmentTestCase<LunchListActivity> {
 		lunchesReceived.add(lunch3);
 		lunchListFragment.lunchesReceived(lunchesReceived);
 
-		ArrayAdapter<?> adapter = LunchTestCase.assertIsOfTypeAndGet(
+		ArrayAdapter<?> adapter = LunchBuddyTestCase.assertIsOfTypeAndGet(
 				ArrayAdapter.class, lunchListFragment.getListAdapter());
 		assertEquals(lunchListFragment.getActivity(), adapter.getContext());
 
@@ -76,6 +95,26 @@ public class LunchListFragmentTest extends FragmentTestCase<LunchListActivity> {
 		assertEquals(lunch1, adapter.getItem(0));
 		assertEquals(lunch2, adapter.getItem(1));
 		assertEquals(lunch3, adapter.getItem(2));
+
+	}
+
+	public void testOnListItemClickWillSendLunchThroughCallBack()
+			throws Exception {
+		MockLunch lunch1 = new MockLunch();
+		MockLunch lunch2 = new MockLunch();
+		MockLunch lunch3 = new MockLunch();
+		List<LunchInterface> lunchesReceived = new ArrayList<>();
+		lunchesReceived.add(lunch1);
+		lunchesReceived.add(lunch2);
+		lunchesReceived.add(lunch3);
+		lunchListFragment.lunchesReceived(lunchesReceived);
+		MockLunchActivity activity = new MockLunchActivity();
+		lunchListFragment.onAttach(activity);
+
+		lunchListFragment.onListItemClick(new ListView(getActivity()),
+				new View(getActivity()), 1, 12412);
+
+		assertEquals(lunch2, activity.getLunchPassedIn());
 
 	}
 }

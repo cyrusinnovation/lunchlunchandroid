@@ -1,10 +1,10 @@
 package com.lunchlunch.model;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 import com.lunchlunch.model.person.MockPerson;
 import com.lunchlunch.model.person.NullPerson;
 
-public class LunchBuddySessionTest extends LunchTestCase {
+public class LunchBuddySessionTest extends LunchBuddyTestCase {
 
 	public void testIsSingleton() throws Exception {
 		assertEquals(0, LunchBuddySession.class.getConstructors().length);

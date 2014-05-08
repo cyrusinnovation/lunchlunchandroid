@@ -1,5 +1,6 @@
 package com.lunchlunch.view.lunches;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -15,60 +16,27 @@ import com.lunchlunch.webcomm.lunch.LunchHelperInterface;
 import com.lunchlunch.webcomm.lunch.LunchHelperProvider;
 import com.lunchlunch.webcomm.lunch.LunchReceiver;
 
-/**
- * A list fragment representing a list of Lunches. This fragment also supports
- * tablet devices by allowing list items to be given an 'activated' state upon
- * selection. This helps indicate which item is currently being viewed in a
- * {@link LunchDetailFragment}.
- * <p>
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
- */
 public class LunchListFragment extends ListFragment implements LunchReceiver {
 
-	/**
-	 * The serialization (saved instance state) Bundle key representing the
-	 * activated item position. Only used on tablets.
-	 */
 	private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
-	/**
-	 * The fragment's current callback object, which is notified of list item
-	 * clicks.
-	 */
-	private Callbacks mCallbacks = sDummyCallbacks;
+	private Callbacks mCallbacks = nullCallBacks;
 
-	/**
-	 * The current activated item position. Only used on tablets.
-	 */
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 
-	/**
-	 * A callback interface that all activities containing this fragment must
-	 * implement. This mechanism allows activities to be notified of item
-	 * selections.
-	 */
 	public interface Callbacks {
-		/**
-		 * Callback for when an item has been selected.
-		 */
-		public void onItemSelected(String id);
+		public void onItemSelect(LunchInterface lunch);
 	}
 
-	/**
-	 * A dummy implementation of the {@link Callbacks} interface that does
-	 * nothing. Used only when this fragment is not attached to an activity.
-	 */
-	private static Callbacks sDummyCallbacks = new Callbacks() {
+	private static Callbacks nullCallBacks = new Callbacks() {
+
 		@Override
-		public void onItemSelected(String id) {
+		public void onItemSelect(LunchInterface lunch) {
+
 		}
 	};
 
-	/**
-	 * Mandatory empty constructor for the fragment manager to instantiate the
-	 * fragment (e.g. upon screen orientation changes).
-	 */
+	private ArrayAdapter<LunchInterface> listAdapter;
 
 	public LunchListFragment() {
 
@@ -77,6 +45,9 @@ public class LunchListFragment extends ListFragment implements LunchReceiver {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		listAdapter = new ArrayAdapter<LunchInterface>(getActivity(),
+				android.R.layout.simple_list_item_activated_1,
+				android.R.id.text1, new ArrayList<LunchInterface>());
 		LunchHelperInterface lunchHelper = LunchHelperProvider.SINGLETON
 				.provideLunchHelper();
 		lunchHelper.getLunches(LunchBuddySession.SINGLETON.getUserLoggedIn(),
@@ -91,15 +62,15 @@ public class LunchListFragment extends ListFragment implements LunchReceiver {
 
 	@Override
 	public void lunchesReceived(List<LunchInterface> lunches) {
-		setListAdapter(new ArrayAdapter<LunchInterface>(getActivity(),
+		listAdapter = new ArrayAdapter<LunchInterface>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, lunches));
+				android.R.id.text1, lunches);
+		setListAdapter(listAdapter);
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null
 				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
 			setActivatedPosition(savedInstanceState
@@ -110,8 +81,6 @@ public class LunchListFragment extends ListFragment implements LunchReceiver {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		// Activities containing this fragment must implement its callbacks.
 		if (!(activity instanceof Callbacks)) {
 			throw new IllegalStateException(
 					"Activity must implement fragment's callbacks.");
@@ -123,37 +92,25 @@ public class LunchListFragment extends ListFragment implements LunchReceiver {
 	@Override
 	public void onDetach() {
 		super.onDetach();
-
-		// Reset the active callbacks interface to the dummy implementation.
-		mCallbacks = sDummyCallbacks;
+		mCallbacks = nullCallBacks;
 	}
 
 	@Override
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
 		super.onListItemClick(listView, view, position, id);
-
-		// Notify the active callbacks interface (the activity, if the
-		// fragment is attached to one) that an item has been selected.
-		// mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);;
+		mCallbacks.onItemSelect(listAdapter.getItem(position));
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		if (mActivatedPosition != ListView.INVALID_POSITION) {
-			// Serialize and persist the activated item position.
 			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
 		}
 	}
 
-	/**
-	 * Turns on activate-on-click mode. When this mode is on, list items will be
-	 * given the 'activated' state when touched.
-	 */
 	public void setActivateOnItemClick(boolean activateOnItemClick) {
-		// When setting CHOICE_MODE_SINGLE, ListView will automatically
-		// give items the 'activated' state when touched.
 		getListView().setChoiceMode(
 				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
 						: ListView.CHOICE_MODE_NONE);

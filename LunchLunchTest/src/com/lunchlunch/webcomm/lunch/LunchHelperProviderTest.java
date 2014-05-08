@@ -1,10 +1,10 @@
 package com.lunchlunch.webcomm.lunch;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 import com.lunchlunch.webcomm.HttpClientBuilder;
 import com.lunchlunch.webcomm.person.PersonParser;
 
-public class LunchHelperProviderTest extends LunchTestCase {
+public class LunchHelperProviderTest extends LunchBuddyTestCase {
 
 	public void testIsASingleton() throws Exception {
 		assertEquals(0, LunchHelperProvider.class.getConstructors().length);

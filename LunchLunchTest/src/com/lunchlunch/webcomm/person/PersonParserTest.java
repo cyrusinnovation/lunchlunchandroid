@@ -3,12 +3,12 @@ package com.lunchlunch.webcomm.person;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.lunchlunch.LunchTestCase;
+import com.lunchlunch.LunchBuddyTestCase;
 import com.lunchlunch.model.person.NullPerson;
 import com.lunchlunch.model.person.Person;
 import com.lunchlunch.webcomm.ExplodingJSONObject;
 
-public class PersonParserTest extends LunchTestCase {
+public class PersonParserTest extends LunchBuddyTestCase {
 	public void testImplementsInterface() throws Exception {
 		assertEquals(PersonParserInterface.class,
 				PersonParser.class.getInterfaces()[0]);
