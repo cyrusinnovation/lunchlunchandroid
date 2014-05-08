@@ -17,4 +17,16 @@ public abstract class LunchTestCase extends AndroidTestCase {
 		}
 
 	}
+
+	public static void checkEqualsAndHashCode(Object original,
+			Object equalObject, Object... notEqualObjects) {
+		assertEquals(original, equalObject);
+		assertEquals(
+				"If you override equals, be sure to override hashcode as well",
+				original.hashCode(), equalObject.hashCode());
+		for (Object object : notEqualObjects) {
+			assertFalse(original.equals(object));
+		}
+
+	}
 }

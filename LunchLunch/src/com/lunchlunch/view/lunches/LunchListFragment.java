@@ -1,5 +1,7 @@
 package com.lunchlunch.view.lunches;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -7,7 +9,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.lunchlunch.dummy.DummyContent;
+import com.lunchlunch.model.LunchBuddySession;
+import com.lunchlunch.model.lunch.LunchInterface;
+import com.lunchlunch.webcomm.lunch.LunchHelperInterface;
+import com.lunchlunch.webcomm.lunch.LunchHelperProvider;
+import com.lunchlunch.webcomm.lunch.LunchReceiver;
 
 /**
  * A list fragment representing a list of Lunches. This fragment also supports
@@ -18,7 +24,7 @@ import com.lunchlunch.dummy.DummyContent;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class LunchListFragment extends ListFragment {
+public class LunchListFragment extends ListFragment implements LunchReceiver {
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -63,23 +69,36 @@ public class LunchListFragment extends ListFragment {
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
 	 */
+
 	public LunchListFragment() {
+
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		LunchHelperInterface lunchHelper = LunchHelperProvider.SINGLETON
+				.provideLunchHelper();
+		lunchHelper.getLunches(LunchBuddySession.SINGLETON.getUserLoggedIn(),
+				this);
 
-		// TODO: replace with a real list adapter.
-		setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
+
+	@Override
+	public void lunchesReceived(List<LunchInterface> lunches) {
+		setListAdapter(new ArrayAdapter<LunchInterface>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, DummyContent.ITEMS));
+				android.R.id.text1, lunches));
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
 		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null
 				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
@@ -116,7 +135,7 @@ public class LunchListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+		// mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);;
 	}
 
 	@Override
@@ -149,4 +168,5 @@ public class LunchListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
+
 }

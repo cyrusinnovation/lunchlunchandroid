@@ -6,12 +6,19 @@ import com.lunchlunch.webcomm.person.PersonParser;
 
 public class LoginHelperProviderTest extends LunchTestCase {
 
-	public void testBuildLoginProvider() throws Exception {
+	public void testIsASingleton() throws Exception {
+		assertEquals(0, LoginHelperProvider.class.getConstructors().length);
+		assertIsOfTypeAndGet(LoginHelperProvider.class,
+				LoginHelperProvider.SINGLETON);
+	}
+
+	public void testBuildLoginHelper() throws Exception {
 		LoginHelper provider = assertIsOfTypeAndGet(LoginHelper.class,
-				new LoginHelperProvider().provideLoginHelper());
+				LoginHelperProvider.SINGLETON.provideLoginHelper());
 		assertEquals(PersonParser.SINGLETON, provider.getPersonParser());
 		assertEquals(HttpClientBuilder.SINGLETON,
 				provider.getHttpClientBuilder());
+		assertSame(provider, LoginHelperProvider.SINGLETON.provideLoginHelper());
 	}
 
 }

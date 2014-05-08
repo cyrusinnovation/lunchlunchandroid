@@ -4,9 +4,18 @@ import com.lunchlunch.LunchTestCase;
 
 public class CommandDispatcherProviderTest extends LunchTestCase {
 
+	public void testIsASingleton() throws Exception {
+		assertEquals(0,
+				CommandDispatcherProvider.class.getConstructors().length);
+		assertIsOfTypeAndGet(CommandDispatcherProvider.class,
+				CommandDispatcherProvider.SINGLETON);
+	}
+
 	public void testProvidesCommandDispatcher() throws Exception {
-		CommandDispatcherProvider provider = new CommandDispatcherProvider();
 		assertIsOfTypeAndGet(CommandDispatcher.class,
-				provider.provideCommandDispatcher());
+				CommandDispatcherProvider.SINGLETON.provideCommandDispatcher());
+		assertSame(
+				CommandDispatcherProvider.SINGLETON.provideCommandDispatcher(),
+				CommandDispatcherProvider.SINGLETON.provideCommandDispatcher());
 	}
 }

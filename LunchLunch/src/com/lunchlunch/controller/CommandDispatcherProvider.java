@@ -1,17 +1,16 @@
 package com.lunchlunch.controller;
 
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
-
-@Module(complete = false, library = true)
 public class CommandDispatcherProvider {
 
-	@Provides
-	@Singleton
-	CommandDispatcherInterface provideCommandDispatcher() {
-		return new CommandDispatcher();
+	public static final CommandDispatcherProvider SINGLETON = new CommandDispatcherProvider();
+	private CommandDispatcherInterface commandDispatcher;
+
+	private CommandDispatcherProvider() {
+		commandDispatcher = new CommandDispatcher();
+	}
+
+	public CommandDispatcherInterface provideCommandDispatcher() {
+		return commandDispatcher;
 	}
 
 }

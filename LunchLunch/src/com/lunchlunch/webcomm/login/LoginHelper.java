@@ -1,11 +1,7 @@
 package com.lunchlunch.webcomm.login;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -18,8 +14,9 @@ import com.lunchlunch.LunchBuddyConstants;
 import com.lunchlunch.model.person.NullPerson;
 import com.lunchlunch.model.person.PersonInterface;
 import com.lunchlunch.webcomm.HttpClientBuilderInterface;
-import com.lunchlunch.webcomm.PersonReceiver;
+import com.lunchlunch.webcomm.ResponseHelper;
 import com.lunchlunch.webcomm.person.PersonParserInterface;
+import com.lunchlunch.webcomm.person.PersonReceiver;
 
 public class LoginHelper implements LoginHelperInterface {
 
@@ -41,18 +38,10 @@ public class LoginHelper implements LoginHelperInterface {
 						+ "/login?email=" + email);
 
 				HttpResponse response = client.execute(httpGet);
-				HttpEntity entity = response.getEntity();
-				InputStream responseContents = entity.getContent();
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(responseContents));
-				StringBuffer result = new StringBuffer();
-				String line = "";
-				while ((line = reader.readLine()) != null) {
-					result.append(line);
-				}
+				String result = ResponseHelper
+						.getResponseContentsAsString(response);
 
-				return personParser.buildPersonFromJSON(new JSONObject(result
-						.toString()));
+				return personParser.buildPersonFromJSON(new JSONObject(result));
 			} catch (IOException | JSONException e) {
 				return NullPerson.NULL;
 			}

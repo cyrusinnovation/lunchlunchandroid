@@ -5,10 +5,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.lunchlunch.R;
-import com.lunchlunch.dummy.DummyContent;
 
 /**
  * A fragment representing a single Lunch detail screen. This fragment is either
@@ -25,7 +23,6 @@ public class LunchDetailFragment extends Fragment {
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
-	private DummyContent.DummyItem mItem;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,8 +39,8 @@ public class LunchDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			mItem = DummyContent.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
+//			mItem = DummyContent.ITEM_MAP.get(getArguments().getString(
+//					ARG_ITEM_ID));
 		}
 	}
 
@@ -54,10 +51,10 @@ public class LunchDetailFragment extends Fragment {
 				container, false);
 
 		// Show the dummy content as text in a TextView.
-		if (mItem != null) {
-			((TextView) rootView.findViewById(R.id.lunch_detail))
-					.setText(mItem.content);
-		}
+		// if (mItem != null) {
+		// ((TextView) rootView.findViewById(R.id.lunch_detail))
+		// .setText(mItem.content);
+		// }
 
 		return rootView;
 	}

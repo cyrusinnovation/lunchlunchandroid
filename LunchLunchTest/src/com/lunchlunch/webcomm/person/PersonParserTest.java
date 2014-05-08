@@ -40,6 +40,20 @@ public class PersonParserTest extends LunchTestCase {
 		assertEquals(expectedEmail, parsedPerson.getEmail());
 	}
 
+	public void testBuildJSONFromPerson() throws Exception {
+		String expectedId = "3252362";
+		String expectedFirstName = "Brock";
+		String expectedLastName = "Samson";
+		String expectedEmail = "bsam@osi.gov";
+		JSONObject json = PersonParser.SINGLETON
+				.buildJSONFromPerson(new Person(expectedId, expectedFirstName,
+						expectedLastName, expectedEmail));
+		assertEquals(expectedId, json.get("_id"));
+		assertEquals(expectedFirstName, json.get("firstName"));
+		assertEquals(expectedLastName, json.get("lastName"));
+		assertEquals(expectedEmail, json.get("email"));
+	}
+
 	public void testJSONExceptionsWillYieldANullPerson() throws Exception {
 		ExplodingJSONObject personJSON = new ExplodingJSONObject();
 		assertEquals(NullPerson.NULL,
@@ -50,13 +64,17 @@ public class PersonParserTest extends LunchTestCase {
 	public void testWillParseJSONThatIsMissingElementsWillYieldNullPerson()
 			throws Exception {
 		assertEquals(NullPerson.NULL,
-				PersonParser.SINGLETON.buildPersonFromJSON(buildPersonSansField("_id")));
+				PersonParser.SINGLETON
+						.buildPersonFromJSON(buildPersonSansField("_id")));
 		assertEquals(NullPerson.NULL,
-				PersonParser.SINGLETON.buildPersonFromJSON(buildPersonSansField("firstName")));
+				PersonParser.SINGLETON
+						.buildPersonFromJSON(buildPersonSansField("firstName")));
 		assertEquals(NullPerson.NULL,
-				PersonParser.SINGLETON.buildPersonFromJSON(buildPersonSansField("lastName")));
+				PersonParser.SINGLETON
+						.buildPersonFromJSON(buildPersonSansField("lastName")));
 		assertEquals(NullPerson.NULL,
-				PersonParser.SINGLETON.buildPersonFromJSON(buildPersonSansField("email")));
+				PersonParser.SINGLETON
+						.buildPersonFromJSON(buildPersonSansField("email")));
 	}
 
 	private JSONObject buildPersonSansField(String fieldToExclude)

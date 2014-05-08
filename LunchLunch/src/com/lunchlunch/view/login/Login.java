@@ -1,8 +1,5 @@
 package com.lunchlunch.view.login;
 
-import javax.inject.Inject;
-import javax.inject.Provider;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-import com.lunchlunch.LunchBuddyApp;
 import com.lunchlunch.R;
 import com.lunchlunch.controller.ActivityStarter;
 import com.lunchlunch.controller.CommandDispatcherInterface;
@@ -21,47 +17,27 @@ import com.lunchlunch.model.person.NullPerson;
 import com.lunchlunch.model.person.PersonInterface;
 import com.lunchlunch.view.DialogHandlerInterface;
 import com.lunchlunch.view.DialogHandlerProvider;
-import com.lunchlunch.webcomm.PersonReceiver;
 import com.lunchlunch.webcomm.login.LoginHelperInterface;
 import com.lunchlunch.webcomm.login.LoginHelperProvider;
-
-import dagger.ObjectGraph;
+import com.lunchlunch.webcomm.person.PersonReceiver;
 
 public class Login extends Activity implements PersonReceiver {
 
-	private ObjectGraph activityGraph;
 
-	@Inject
-	Provider<LoginHelperInterface> loginHelper;
 
-	@Inject
-	Provider<CommandDispatcherInterface> commandDispatcherProvider;
-
-	@Inject
-	Provider<DialogHandlerInterface> dialogHandler;
 
 	public Login() {
-
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		LunchBuddyApp application = (LunchBuddyApp) getApplication();
-		activityGraph = application.getApplicationGraph().plus(
-				new LoginHelperProvider(), new CommandDispatcherProvider(),
-				new DialogHandlerProvider());
-
-		activityGraph.inject(this);
 		setContentView(R.layout.fragment_login);
 
 	}
 
 	@Override
 	protected void onDestroy() {
-
-		activityGraph = null;
 
 		super.onDestroy();
 	}
@@ -74,7 +50,9 @@ public class Login extends Activity implements PersonReceiver {
 
 	public void loginClicked(View view) {
 		EditText emailTextField = (EditText) findViewById(R.id.emailTextField);
-		loginHelper.get().login(emailTextField.getText().toString(), this);
+		LoginHelperInterface loginHelper = LoginHelperProvider.SINGLETON
+				.provideLoginHelper();
+		loginHelper.login(emailTextField.getText().toString(), this);
 
 	}
 
@@ -91,12 +69,15 @@ public class Login extends Activity implements PersonReceiver {
 	@Override
 	public void personReceived(PersonInterface person) {
 		if (!person.equals(NullPerson.NULL)) {
-			commandDispatcherProvider.get().execute(
-					new LoginCommand(person, LunchBuddySession.SINGLETON, this,
-							ActivityStarter.SINGLETON));
+			CommandDispatcherInterface commandDispatcher = CommandDispatcherProvider.SINGLETON
+					.provideCommandDispatcher();
+			commandDispatcher.execute(new LoginCommand(person,
+					LunchBuddySession.SINGLETON, this,
+					ActivityStarter.SINGLETON));
 		} else {
-			dialogHandler.get().showErrorDialog(this,
-					getString(R.string.login_error));
+			 DialogHandlerInterface dialogHandler = DialogHandlerProvider.SINGLETON.providerDialogHandler();
+			dialogHandler
+					.showErrorDialog(this, getString(R.string.login_error));
 		}
 	}
 

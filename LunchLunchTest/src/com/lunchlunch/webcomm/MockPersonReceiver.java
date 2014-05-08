@@ -3,6 +3,7 @@ package com.lunchlunch.webcomm;
 import java.util.concurrent.CountDownLatch;
 
 import com.lunchlunch.model.person.PersonInterface;
+import com.lunchlunch.webcomm.person.PersonReceiver;
 
 public class MockPersonReceiver implements PersonReceiver {
 

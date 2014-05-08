@@ -26,4 +26,17 @@ public class PersonParser implements PersonParserInterface {
 		}
 	}
 
+	@Override
+	public JSONObject buildJSONFromPerson(PersonInterface person) {
+		JSONObject personJSON = new JSONObject();
+		try {
+			personJSON.put("_id", person.getId());
+			personJSON.put("firstName", person.getFirstName());
+			personJSON.put("lastName", person.getLastName());
+			personJSON.put("email", person.getEmail());
+		} catch (JSONException exceptionThatCaannotHappen) {
+		}
+		return personJSON;
+	}
+
 }

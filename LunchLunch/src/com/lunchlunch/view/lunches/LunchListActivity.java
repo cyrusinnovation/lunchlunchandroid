@@ -6,28 +6,9 @@ import android.support.v4.app.FragmentActivity;
 
 import com.lunchlunch.R;
 
-/**
- * An activity representing a list of Lunches. This activity has different
- * presentations for handset and tablet-size devices. On handsets, the activity
- * presents a list of items, which when touched, lead to a
- * {@link LunchDetailActivity} representing item details. On tablets, the
- * activity presents the list of items and item details side-by-side using two
- * vertical panes.
- * <p>
- * The activity makes heavy use of fragments. The list of items is a
- * {@link LunchListFragment} and the item details (if present) is a
- * {@link LunchDetailFragment}.
- * <p>
- * This activity also implements the required
- * {@link LunchListFragment.Callbacks} interface to listen for item selections.
- */
 public class LunchListActivity extends FragmentActivity implements
 		LunchListFragment.Callbacks {
 
-	/**
-	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-	 * device.
-	 */
 	private boolean mTwoPane;
 
 	@Override
@@ -62,6 +43,7 @@ public class LunchListActivity extends FragmentActivity implements
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
+
 			arguments.putString(LunchDetailFragment.ARG_ITEM_ID, id);
 			LunchDetailFragment fragment = new LunchDetailFragment();
 			fragment.setArguments(arguments);
