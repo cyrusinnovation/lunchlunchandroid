@@ -21,12 +21,9 @@ import com.lunchlunch.webcomm.login.LoginHelperInterface;
 import com.lunchlunch.webcomm.login.LoginHelperProvider;
 import com.lunchlunch.webcomm.person.PersonReceiver;
 
-public class Login extends Activity implements PersonReceiver {
+public class LoginActivity extends Activity implements PersonReceiver {
 
-
-
-
-	public Login() {
+	public LoginActivity() {
 	}
 
 	@Override
@@ -59,10 +56,6 @@ public class Login extends Activity implements PersonReceiver {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -75,7 +68,8 @@ public class Login extends Activity implements PersonReceiver {
 					LunchBuddySession.SINGLETON, this,
 					ActivityStarter.SINGLETON));
 		} else {
-			 DialogHandlerInterface dialogHandler = DialogHandlerProvider.SINGLETON.providerDialogHandler();
+			DialogHandlerInterface dialogHandler = DialogHandlerProvider.SINGLETON
+					.providerDialogHandler();
 			dialogHandler
 					.showErrorDialog(this, getString(R.string.login_error));
 		}

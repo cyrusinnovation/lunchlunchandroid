@@ -21,7 +21,7 @@ import com.lunchlunch.webcomm.login.LoginHelperProviderTestUtility;
 import com.lunchlunch.webcomm.login.MockLoginHelper;
 import com.lunchlunch.webcomm.person.PersonReceiver;
 
-public class LoginTest extends ActivityUnitTestCase<Login> {
+public class LoginActivityTest extends ActivityUnitTestCase<LoginActivity> {
 
 	private static MockCommandDispatcher commandDispatcher;
 
@@ -29,8 +29,8 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 
 	private static MockDialogHandler dialogHandler;
 
-	public LoginTest() {
-		super(Login.class);
+	public LoginActivityTest() {
+		super(LoginActivity.class);
 	}
 
 	@Override
@@ -47,7 +47,7 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 				.setDialogHandlerToProvide(dialogHandler);
 		setApplication(new LunchBuddyApp());
 		Intent intent = new Intent(getInstrumentation().getTargetContext(),
-				Login.class);
+				LoginActivity.class);
 		startActivity(intent, null, null);
 
 	}
@@ -64,17 +64,17 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 	}
 
 	public void testIsAnActivity() throws Exception {
-		assertEquals(Activity.class, Login.class.getSuperclass());
+		assertEquals(Activity.class, LoginActivity.class.getSuperclass());
 	}
 
 	public void testImplementsPersonReceiver() throws Exception {
-		assertEquals(PersonReceiver.class, Login.class.getInterfaces()[0]);
+		assertEquals(PersonReceiver.class, LoginActivity.class.getInterfaces()[0]);
 	}
 
 	public void testLoginClickedWillSendEmailFromEmailTextFieldToLoginProvider()
 			throws Exception {
 
-		Login activity = getActivity();
+		LoginActivity activity = getActivity();
 		EditText emailTextField = LunchBuddyTestCase.assertIsOfTypeAndGet(
 				EditText.class, activity.findViewById(R.id.emailTextField));
 		String textFieldContents = "thisisinthetextfield";
@@ -89,7 +89,7 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 
 	public void testWhenAPersonIsReturnedFromTheProviderTheLoginCommandIsFired()
 			throws Exception {
-		Login activity = getActivity();
+		LoginActivity activity = getActivity();
 		MockPerson personToReturn = new MockPerson();
 		activity.personReceived(personToReturn);
 		LoginCommand loginCommand = LunchBuddyTestCase.assertIsOfTypeAndGet(
@@ -103,14 +103,14 @@ public class LoginTest extends ActivityUnitTestCase<Login> {
 
 	public void testWhenANullPersonIsReturnedFromTheProviderNoCommandIsFired()
 			throws Exception {
-		Login activity = getActivity();
+		LoginActivity activity = getActivity();
 		activity.personReceived(NullPerson.NULL);
 		assertNull(commandDispatcher.getLastCommandExecuted());
 	}
 
 	public void testWhenANullPersonIsReturnedFromTheProviderShowAnErrorMessage()
 			throws Exception {
-		Login activity = getActivity();
+		LoginActivity activity = getActivity();
 		activity.personReceived(NullPerson.NULL);
 		assertEquals(activity, dialogHandler.getBaseContextForLastErrorDialog());
 		assertEquals(activity.getString(R.string.login_error),

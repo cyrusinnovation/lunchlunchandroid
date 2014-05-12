@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.test.UiThreadTest;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -66,6 +67,7 @@ public class LunchListFragmentTest extends FragmentTestCase<LunchListActivity> {
 				LunchListFragment.class.getInterfaces()[0]);
 	}
 
+	@UiThreadTest
 	public void testWillUsesPersonFromTheSessionToGetLunchesOnFragmentCreation()
 			throws Exception {
 		MockPerson loggedInPerson = new MockPerson();
@@ -76,6 +78,7 @@ public class LunchListFragmentTest extends FragmentTestCase<LunchListActivity> {
 
 	}
 
+	@UiThreadTest
 	public void testLunchesRecievedWillPopulateListAdapterWithLunches()
 			throws Exception {
 		MockLunch lunch1 = new MockLunch();
@@ -98,6 +101,7 @@ public class LunchListFragmentTest extends FragmentTestCase<LunchListActivity> {
 
 	}
 
+	@UiThreadTest
 	public void testOnListItemClickWillSendLunchThroughCallBack()
 			throws Exception {
 		MockLunch lunch1 = new MockLunch();

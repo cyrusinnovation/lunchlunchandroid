@@ -7,6 +7,7 @@ import android.os.Parcelable;
 
 import com.lunchlunch.model.lunch.LunchInterface;
 import com.lunchlunch.view.lunches.LunchDetailActivity;
+import com.lunchlunch.view.lunches.LunchDetailFragment;
 
 public class ShowLunchDetailCommand implements Command {
 
@@ -24,7 +25,7 @@ public class ShowLunchDetailCommand implements Command {
 	@Override
 	public void execute() {
 		HashMap<String, Parcelable> extraInfo = new HashMap<String, Parcelable>();
-		extraInfo.put("lunch", lunch);
+		extraInfo.put(LunchDetailFragment.DETAILED_LUNCH_KEY, lunch);
 		activityStarter.startActivityWithExtras(lunchListActivity,
 				LunchDetailActivity.class, extraInfo);
 

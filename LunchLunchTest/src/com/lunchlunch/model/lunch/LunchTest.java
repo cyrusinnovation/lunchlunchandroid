@@ -53,7 +53,21 @@ public class LunchTest extends LunchBuddyTestCase {
 		parcel.recycle();
 	}
 
-	
+	public void testEqualsAndHashCode() throws Exception {
+		MockPerson person1 = new MockPerson();
+		MockPerson person2 = new MockPerson();
+		Date dateTime = new Date(3423523);
+		Lunch lunch = new Lunch(person1, person2, dateTime);
+		Lunch equalLunch = new Lunch(person1, person2, dateTime);
+		Lunch notEqualPerson1 = new Lunch(new MockPerson(), person2, dateTime);
+		Lunch notEqualPerson2 = new Lunch(person1, new MockPerson(), dateTime);
+		Lunch notEqualDateTime = new Lunch(person1, new MockPerson(), new Date(
+				532523));
+		checkEqualsAndHashCode(lunch, equalLunch, notEqualPerson1,
+				notEqualPerson2, notEqualDateTime, new Object(),
+				new MockLunch(), null);
+	}
+
 	public void testToString() throws Exception {
 		SimpleDateFormat dateMaker = new SimpleDateFormat("MM/dd/yyyy HH:mm",
 				Locale.getDefault());

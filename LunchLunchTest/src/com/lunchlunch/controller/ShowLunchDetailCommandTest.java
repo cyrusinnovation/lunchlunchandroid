@@ -3,6 +3,7 @@ package com.lunchlunch.controller;
 import com.lunchlunch.LunchBuddyTestCase;
 import com.lunchlunch.model.lunch.MockLunch;
 import com.lunchlunch.view.lunches.LunchDetailActivity;
+import com.lunchlunch.view.lunches.LunchDetailFragment;
 
 public class ShowLunchDetailCommandTest extends LunchBuddyTestCase {
 	public void testImplementsCommand() throws Exception {
@@ -36,6 +37,6 @@ public class ShowLunchDetailCommandTest extends LunchBuddyTestCase {
 		assertEquals(LunchDetailActivity.class,
 				activityStarter.getActivityClassToStart());
 		assertEquals(lunch, activityStarter.getExtraInformationPassedToStart()
-				.get("lunch"));
+				.get(LunchDetailFragment.DETAILED_LUNCH_KEY));
 	}
 }

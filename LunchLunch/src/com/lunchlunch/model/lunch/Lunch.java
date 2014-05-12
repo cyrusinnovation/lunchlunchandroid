@@ -57,4 +57,23 @@ public class Lunch implements LunchInterface {
 		dest.writeString(dateFormatter.format(dateTime));
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		return prime * dateTime.hashCode() * person1.hashCode()
+				* person2.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Lunch))
+			return false;
+		Lunch other = (Lunch) obj;
+		return this.dateTime.equals(other.dateTime)
+				&& this.person1.equals(other.person1)
+				&& this.person2.equals(other.person2);
+	}
+
 }

@@ -3,7 +3,5 @@
     android:id="@+id/lunch_detail_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lunchlunch.view.lunches.LunchDetailActivity"
-    tools:ignore="MergeRootFrame" >
-
-</FrameLayout>
+    tools:context="com.lunchlunch.LunchDetailActivity"
+    tools:ignore="MergeRootFrame" />

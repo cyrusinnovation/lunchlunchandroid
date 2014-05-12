@@ -1,33 +1,24 @@
 package com.lunchlunch.view.lunches;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.lunchlunch.R;
+import com.lunchlunch.model.LunchBuddySession;
+import com.lunchlunch.model.lunch.Lunch;
+import com.lunchlunch.model.person.PersonInterface;
 
-/**
- * A fragment representing a single Lunch detail screen. This fragment is either
- * contained in a {@link LunchListActivity} in two-pane mode (on tablets) or a
- * {@link LunchDetailActivity} on handsets.
- */
 public class LunchDetailFragment extends Fragment {
-	/**
-	 * The fragment argument representing the item ID that this fragment
-	 * represents.
-	 */
-	public static final String ARG_ITEM_ID = "item_id";
 
-	/**
-	 * The dummy content this fragment is presenting.
-	 */
+	public static final String DETAILED_LUNCH_KEY = "lunch_detailed";
 
-	/**
-	 * Mandatory empty constructor for the fragment manager to instantiate the
-	 * fragment (e.g. upon screen orientation changes).
-	 */
 	public LunchDetailFragment() {
 	}
 
@@ -35,13 +26,6 @@ public class LunchDetailFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
-			// Load the dummy content specified by the fragment
-			// arguments. In a real-world scenario, use a Loader
-			// to load content from a content provider.
-			// mItem = DummyContent.ITEM_MAP.get(getArguments().getString(
-			// ARG_ITEM_ID));
-		}
 	}
 
 	@Override
@@ -49,13 +33,41 @@ public class LunchDetailFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_lunch_detail,
 				container, false);
+		Bundle arguments = getArguments();
+		if (arguments != null && arguments.containsKey(DETAILED_LUNCH_KEY)) {
+			setDetailLabelValues(rootView);
 
-		// Show the dummy content as text in a TextView.
-		// if (mItem != null) {
-		// ((TextView) rootView.findViewById(R.id.lunch_detail))
-		// .setText(mItem.content);
-		// }
-
+		}
 		return rootView;
+	}
+
+	private void setDetailLabelValues(View rootView) {
+		Lunch lunch = getArguments().getParcelable(DETAILED_LUNCH_KEY);
+		TextView dateValueLabel = (TextView) rootView
+				.findViewById(R.id.dateValueLabel);
+		TextView timeValueLabel = (TextView) rootView
+				.findViewById(R.id.timeValueLabel);
+		TextView whomValueLabel = (TextView) rootView
+				.findViewById(R.id.whomValueLabel);
+
+		PersonInterface lunchBuddy = findLunchBuddy(lunch);
+		whomValueLabel.setText(lunchBuddy.getFirstName() + " "
+				+ lunchBuddy.getLastName());
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("M/d/yyyy",
+				Locale.getDefault());
+		dateValueLabel.setText(dateFormatter.format(lunch.getDateTime()));
+
+		SimpleDateFormat timeFormatter = new SimpleDateFormat("h:mm a",
+				Locale.getDefault());
+		timeValueLabel.setText(timeFormatter.format(lunch.getDateTime()));
+	}
+
+	private PersonInterface findLunchBuddy(Lunch lunch) {
+		if (lunch.getPerson1().equals(
+				LunchBuddySession.SINGLETON.getUserLoggedIn())) {
+			return lunch.getPerson2();
+		} else {
+			return lunch.getPerson1();
+		}
 	}
 }

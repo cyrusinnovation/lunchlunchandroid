@@ -9,5 +9,9 @@
     <string name="title_lunch_detail">Lunch Detail</string>
     <string name="hello_world">Hello world!</string>
     <string name="login_error">The email you entered does not exist, please try again.</string>
+    <string name="whom">Whom:</string>
+    <string name="dateLabel">Date:</string>
+    <string name="timeLabel">Time:</string>
+    <string name="title_activity_lunch_detail">Lunch Details</string>
 
 </resources>

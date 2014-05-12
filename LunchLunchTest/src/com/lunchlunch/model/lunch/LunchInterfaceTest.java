@@ -22,9 +22,7 @@ public class LunchInterfaceTest extends LunchBuddyTestCase {
 
 		Lunch parcelLunch = assertIsOfTypeAndGet(Lunch.class,
 				LunchInterface.CREATOR.createFromParcel(parcel));
-		assertEquals(person1, parcelLunch.getPerson1());
-		assertEquals(person2, parcelLunch.getPerson2());
-		assertEquals(dateTime, parcelLunch.getDateTime());
+		assertEquals(lunch, parcelLunch);
 
 		parcel.recycle();
 	}
