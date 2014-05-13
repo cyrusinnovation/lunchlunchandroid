@@ -1,6 +1,5 @@
 package com.lunchlunch.webcomm.lunch;
 
-import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -21,8 +20,6 @@ import com.lunchlunch.model.person.MockPerson;
 import com.lunchlunch.webcomm.MockExplodingClient;
 import com.lunchlunch.webcomm.MockHttpClient;
 import com.lunchlunch.webcomm.MockHttpClientBuilder;
-import com.lunchlunch.webcomm.MockHttpEntity;
-import com.lunchlunch.webcomm.MockHttpResponse;
 import com.lunchlunch.webcomm.person.MockPersonParser;
 
 public class LunchHelperTest extends LunchBuddyTestCase {
@@ -99,7 +96,8 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 				personParser, lunchParser);
 
 		String responseContents = "[{this:should}, {look:like}, {json:somewhat}]";
-		setResponseContentsToReturn(httpClientBuilder, responseContents);
+		HttpClientBuilderTestHelper.setResponseContentsToReturn(
+				httpClientBuilder, responseContents);
 		lunchHelper.getLunches(new MockPerson(), new MockLunchReceiver(
 				countdown));
 		countdown.await(10, TimeUnit.SECONDS);
@@ -132,7 +130,8 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 				personParser, lunchParser);
 
 		String responseContents = "[{this:should}, {look:like}, {json:somewhat}]";
-		setResponseContentsToReturn(httpClientBuilder, responseContents);
+		HttpClientBuilderTestHelper.setResponseContentsToReturn(
+				httpClientBuilder, responseContents);
 		MockLunchReceiver lunchReceiver = new MockLunchReceiver(countdown);
 
 		lunchHelper.getLunches(new MockPerson(), lunchReceiver);
@@ -147,19 +146,14 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 		MockHttpClientBuilder httpClientBuilder = new MockHttpClientBuilder();
 		MockPersonParser personParser = new MockPersonParser();
 		MockLunchParser lunchParser = new MockLunchParser();
-		List<LunchInterface> expectedLunches = new ArrayList<LunchInterface>();
-		expectedLunches.add(new MockLunch());
-		expectedLunches.add(new MockLunch());
-		expectedLunches.add(new MockLunch());
-
-		lunchParser.setLunchesToReturn(expectedLunches);
 
 		personParser.setJsonToReturn(new JSONObject("{some:stuff,goes:here}"));
 		LunchHelperInterface lunchHelper = new LunchHelper(httpClientBuilder,
 				personParser, lunchParser);
 
 		String responseContents = "kablammo";
-		setResponseContentsToReturn(httpClientBuilder, responseContents);
+		HttpClientBuilderTestHelper.setResponseContentsToReturn(
+				httpClientBuilder, responseContents);
 
 		MockLunchReceiver lunchReceiver = new MockLunchReceiver(countdown);
 
@@ -177,12 +171,6 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 		MockPersonParser personParser = new MockPersonParser();
 		httpClientBuilder.setHttpClientToReturn(new MockExplodingClient());
 		MockLunchParser lunchParser = new MockLunchParser();
-		List<LunchInterface> expectedLunches = new ArrayList<LunchInterface>();
-		expectedLunches.add(new MockLunch());
-		expectedLunches.add(new MockLunch());
-		expectedLunches.add(new MockLunch());
-
-		lunchParser.setLunchesToReturn(expectedLunches);
 
 		personParser.setJsonToReturn(new JSONObject("{some:stuff,goes:here}"));
 		LunchHelperInterface lunchHelper = new LunchHelper(httpClientBuilder,
@@ -193,22 +181,6 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 		countdown.await(10, TimeUnit.SECONDS);
 
 		assertEquals(0, lunchReceiver.getLunchesReceived().size());
-	}
-
-	private void setResponseContentsToReturn(
-			MockHttpClientBuilder httpClientBuilder, String responseContents) {
-		MockHttpClient httpClientToReturn = new MockHttpClient();
-
-		httpClientBuilder.setHttpClientToReturn(httpClientToReturn);
-		MockHttpResponse responseToReturnFromExecute = new MockHttpResponse();
-		MockHttpEntity entityFromResponse = new MockHttpEntity();
-		responseToReturnFromExecute.setEntity(entityFromResponse);
-		httpClientToReturn
-				.setResponseToReturnFromExecute(responseToReturnFromExecute);
-
-		ByteArrayInputStream responseContentStream = new ByteArrayInputStream(
-				responseContents.getBytes());
-		entityFromResponse.setContentToReturn(responseContentStream);
 	}
 
 }

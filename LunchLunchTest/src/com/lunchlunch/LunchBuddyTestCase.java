@@ -1,9 +1,9 @@
 package com.lunchlunch;
 
 import junit.framework.Assert;
-import android.test.AndroidTestCase;
+import junit.framework.TestCase;
 
-public abstract class LunchBuddyTestCase extends AndroidTestCase {
+public abstract class LunchBuddyTestCase extends TestCase {
 
 	public static <T> T assertIsOfTypeAndGet(Class<T> expectedClass,
 			Object actualObject) {

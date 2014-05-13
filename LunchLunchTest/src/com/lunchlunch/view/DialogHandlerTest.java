@@ -1,9 +1,10 @@
 package com.lunchlunch.view;
 
-import com.lunchlunch.LunchBuddyTestCase;
+import android.test.AndroidTestCase;
+
 import com.lunchlunch.controller.MockActivity;
 
-public class DialogHandlerTest extends LunchBuddyTestCase {
+public class DialogHandlerTest extends AndroidTestCase {
 
 	public void testImplementsInterface() throws Exception {
 		assertEquals(DialogHandlerInterface.class,

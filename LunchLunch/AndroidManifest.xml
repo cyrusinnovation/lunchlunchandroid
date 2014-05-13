@@ -38,7 +38,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.lunchlunch.LunchListActivity" />
         </activity>
+        <activity
+            android:name="com.lunchlunch.view.lunches.FindLunchBuddyActivity"
+            android:label="@string/title_activity_find_lunch_buddy"
+            android:parentActivityName="com.lunchlunch.view.lunches.LunchListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.lunchlunch.view.lunches.LunchListActivity" />
+        </activity>
     </application>
 
 </manifest>
-

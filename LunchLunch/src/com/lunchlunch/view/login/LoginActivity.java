@@ -3,7 +3,6 @@ package com.lunchlunch.view.login;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
@@ -51,12 +50,6 @@ public class LoginActivity extends Activity implements PersonReceiver {
 				.provideLoginHelper();
 		loginHelper.login(emailTextField.getText().toString(), this);
 
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-
-		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

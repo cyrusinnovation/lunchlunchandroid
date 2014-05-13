@@ -13,5 +13,7 @@
     <string name="dateLabel">Date:</string>
     <string name="timeLabel">Time:</string>
     <string name="title_activity_lunch_detail">Lunch Details</string>
+    <string name="find_buddy">Find Buddy</string>
+    <string name="title_activity_find_lunch_buddy">How About...</string>
 
 </resources>

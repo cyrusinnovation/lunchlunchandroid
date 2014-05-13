@@ -81,7 +81,6 @@ public class LunchHelper implements LunchHelperInterface {
 						.getResponseContentsAsString(response);
 				lunches = lunchParser.parseLunches(new JSONArray(result));
 			} catch (IOException | JSONException e) {
-				e.printStackTrace();
 			}
 			return lunches;
 		}
