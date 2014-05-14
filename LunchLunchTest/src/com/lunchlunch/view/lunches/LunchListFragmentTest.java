@@ -48,7 +48,7 @@ public class LunchListFragmentTest extends FragmentTestCase<LunchListActivity> {
 	protected void setUp() throws Exception {
 		super.setUp();
 		lunchHelper = new MockLunchHelper();
-		LunchRetrieverProviderTestUtility.setLunchHelperToProvide(lunchHelper);
+		LunchRetrieverProviderTestUtility.setLunchRetrieverToProvide(lunchHelper);
 
 		LunchListFragment fragment = new LunchListFragment();
 		this.lunchListFragment = (LunchListFragment) startFragment(fragment);
@@ -58,7 +58,7 @@ public class LunchListFragmentTest extends FragmentTestCase<LunchListActivity> {
 	@Override
 	protected void tearDown() throws Exception {
 		lunchHelper = null;
-		LunchRetrieverProviderTestUtility.resetLunchHelperProvider();
+		LunchRetrieverProviderTestUtility.resetLunchRetrieverProvider();
 		super.tearDown();
 	}
 

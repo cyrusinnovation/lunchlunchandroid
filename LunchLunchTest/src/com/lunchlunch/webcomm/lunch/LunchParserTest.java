@@ -67,8 +67,8 @@ public class LunchParserTest extends LunchBuddyTestCase {
 		SimpleDateFormat dateMaker = new SimpleDateFormat(
 				LunchBuddyConstants.JSON_DATE_FORMAT, Locale.US);
 
-		JSONObject lunchJson = LunchParser.SINGLETON.createLunchJSON(lunch);
-
+		JSONObject json = LunchParser.SINGLETON.createLunchJSON(lunch);
+		JSONObject lunchJson = json.getJSONObject("lunch");
 		checkPersonJSON(person1, lunchJson.getJSONObject("person1"));
 		checkPersonJSON(person2, lunchJson.getJSONObject("person2"));
 		assertEquals(dateMaker.format(lunchDate),

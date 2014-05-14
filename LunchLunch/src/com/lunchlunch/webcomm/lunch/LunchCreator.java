@@ -61,7 +61,8 @@ public class LunchCreator implements LunchCreatorInterface {
 			HttpPost post = new HttpPost(LunchBuddyConstants.SERVICE_URL
 					+ "/createLunch");
 			try {
-				post.setEntity(new StringEntity(lunchJSON.toString()));
+				String jsonString = lunchJSON.toString();
+				post.setEntity(new StringEntity(jsonString));
 				post.setHeader("Accept", "application/json");
 				post.setHeader("Content-type", "application/json");
 				HttpResponse response = client.execute(post);

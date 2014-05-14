@@ -18,6 +18,20 @@ public class MockDialogHandler implements DialogHandlerInterface {
 	private int hourForShowTimePicker;
 	private int minuteForShowTimePicker;
 
+	public void reset() {
+		this.baseContextForLastErrorDialog = null;
+		this.errorMessageForLastErrorDialog = null;
+		this.baseContextForShowDatePicker = null;
+		this.dateSetListenerForShowDatePicker = null;
+		this.yearForShowDatePicker = -1;
+		this.monthForShowDatePicker = -1;
+		this.dayForShowDatePicker = -1;
+		this.baseContextForShowTimePicker = null;
+		this.timeSetListenerForShowTimePicker = null;
+		this.hourForShowTimePicker = -1;
+		this.minuteForShowTimePicker = -1;
+	}
+
 	@Override
 	public void showErrorDialog(Context baseContext, String errorMessage) {
 		this.baseContextForLastErrorDialog = baseContext;
@@ -29,7 +43,7 @@ public class MockDialogHandler implements DialogHandlerInterface {
 	public void showDatePickerDialog(Context baseContext,
 			OnDateSetListener dateSetListener, int year, int month, int day) {
 		this.baseContextForShowDatePicker = baseContext;
-		dateSetListenerForShowDatePicker = dateSetListener;
+		this.dateSetListenerForShowDatePicker = dateSetListener;
 		this.yearForShowDatePicker = year;
 		this.monthForShowDatePicker = month;
 		this.dayForShowDatePicker = day;

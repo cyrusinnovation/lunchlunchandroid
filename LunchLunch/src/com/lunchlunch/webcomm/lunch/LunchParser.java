@@ -55,21 +55,28 @@ public class LunchParser implements LunchParserInterface {
 
 	@Override
 	public JSONObject createLunchJSON(LunchInterface lunch) {
-		JSONObject lunchJSON = new JSONObject();
+		JSONObject jsonObject = new JSONObject();
 		try {
-			JSONObject person1Json = PersonParser.SINGLETON
-					.buildJSONFromPerson(lunch.getPerson1());
-			JSONObject person2Json = PersonParser.SINGLETON
-					.buildJSONFromPerson(lunch.getPerson2());
-			SimpleDateFormat dateFormatter = new SimpleDateFormat(
-					LunchBuddyConstants.JSON_DATE_FORMAT, Locale.getDefault());
-			lunchJSON.put("person1", person1Json);
-			lunchJSON.put("person2", person2Json);
-			lunchJSON
-					.put("dateTime", dateFormatter.format(lunch.getDateTime()));
+			JSONObject lunchJSON = buildLunchJSON(lunch);
+			jsonObject.put("lunch", lunchJSON);
 		} catch (JSONException exceptionThatCannotHappen) {
 
 		}
+		return jsonObject;
+	}
+
+	private JSONObject buildLunchJSON(LunchInterface lunch)
+			throws JSONException {
+		JSONObject lunchJSON = new JSONObject();
+		JSONObject person1Json = PersonParser.SINGLETON
+				.buildJSONFromPerson(lunch.getPerson1());
+		JSONObject person2Json = PersonParser.SINGLETON
+				.buildJSONFromPerson(lunch.getPerson2());
+		SimpleDateFormat dateFormatter = new SimpleDateFormat(
+				LunchBuddyConstants.JSON_DATE_FORMAT, Locale.getDefault());
+		lunchJSON.put("person1", person1Json);
+		lunchJSON.put("person2", person2Json);
+		lunchJSON.put("dateTime", dateFormatter.format(lunch.getDateTime()));
 		return lunchJSON;
 	}
 

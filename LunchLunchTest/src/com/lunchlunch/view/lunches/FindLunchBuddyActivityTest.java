@@ -1,6 +1,8 @@
 package com.lunchlunch.view.lunches;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
@@ -12,14 +14,22 @@ import android.widget.TimePicker;
 
 import com.lunchlunch.LunchBuddyTestCase;
 import com.lunchlunch.R;
+import com.lunchlunch.model.LunchBuddySession;
+import com.lunchlunch.model.lunch.Lunch;
+import com.lunchlunch.model.person.MockPerson;
 import com.lunchlunch.model.person.Person;
 import com.lunchlunch.view.DialogHandlerProviderTestUtility;
 import com.lunchlunch.view.MockDialogHandler;
+import com.lunchlunch.view.MockMenuItem;
+import com.lunchlunch.webcomm.lunch.LunchCreationHandler;
+import com.lunchlunch.webcomm.lunch.LunchCreatorProviderTestUtility;
+import com.lunchlunch.webcomm.lunch.MockLunchCreator;
 
 public class FindLunchBuddyActivityTest extends
 		ActivityInstrumentationTestCase2<FindLunchBuddyActivity> {
 
 	private MockDialogHandler dialogHandler;
+	private MockLunchCreator lunchCreator;
 
 	public FindLunchBuddyActivityTest() {
 		super(FindLunchBuddyActivity.class);
@@ -29,6 +39,8 @@ public class FindLunchBuddyActivityTest extends
 	protected void setUp() throws Exception {
 		super.setUp();
 		dialogHandler = new MockDialogHandler();
+		lunchCreator = new MockLunchCreator();
+		LunchCreatorProviderTestUtility.setLunchCreatorToProvide(lunchCreator);
 		DialogHandlerProviderTestUtility
 				.setDialogHandlerToProvide(dialogHandler);
 	}
@@ -36,7 +48,15 @@ public class FindLunchBuddyActivityTest extends
 	@Override
 	protected void tearDown() throws Exception {
 		DialogHandlerProviderTestUtility.resetDialogHandlerProvider();
+		LunchCreatorProviderTestUtility.resetLunchCreatorProvider();
+		dialogHandler = null;
+		lunchCreator = null;
 		super.tearDown();
+	}
+
+	public void testIsALunchCreationHandler() throws Exception {
+		assertEquals(LunchCreationHandler.class,
+				FindLunchBuddyActivity.class.getInterfaces()[0]);
 	}
 
 	public void testOnCreateWillPopulateFieldsUsingPersonFromIntentExtras()
@@ -160,6 +180,151 @@ public class FindLunchBuddyActivityTest extends
 		});
 
 		assertEquals("2:12 PM", selectedTimeText.getText());
+	}
 
+	public void testClickingTheCreateLunchButton() throws Throwable {
+		MockPerson loggedInPerson = new MockPerson();
+		LunchBuddySession.SINGLETON.setLoggedInUser(loggedInPerson);
+
+		Person lunchBuddy = new Person("2352", "Jonas", "Venture",
+				"jvenjr@venture.net");
+		Intent intent = new Intent();
+		intent.putExtra(FindLunchBuddyActivity.LUNCH_BUDDY_KEY, lunchBuddy);
+		setActivityIntent(intent);
+
+		final FindLunchBuddyActivity activity = getActivity();
+		final String date = "10/14/2015";
+		final String time = "4:45 PM";
+		runTestOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				TextView selectedTimeText = LunchBuddyTestCase
+						.assertIsOfTypeAndGet(TextView.class,
+								activity.findViewById(R.id.selectedTimeText));
+				TextView selectedDateText = LunchBuddyTestCase
+						.assertIsOfTypeAndGet(TextView.class,
+								activity.findViewById(R.id.selectedDateText));
+
+				selectedDateText.setText(date);
+				selectedTimeText.setText(time);
+				activity.onOptionsItemSelected(new MockMenuItem(
+						com.lunchlunch.R.id.createLunchButton));
+			}
+		});
+
+		SimpleDateFormat dateMaker = new SimpleDateFormat("MM/dd/yyyy hh:mm a",
+				Locale.getDefault());
+
+		Lunch lunchForCreate = LunchBuddyTestCase.assertIsOfTypeAndGet(
+				Lunch.class, lunchCreator.getLunchForCreate());
+		assertEquals(loggedInPerson, lunchForCreate.getPerson1());
+		assertEquals(lunchBuddy, lunchForCreate.getPerson2());
+		assertEquals(dateMaker.parse(date + " " + time),
+				lunchForCreate.getDateTime());
+		assertEquals(activity, lunchCreator.getLunchCreationHandlerForCreate());
+	}
+
+	public void testClickingTheCreateLunchButtonWithABadDateWillShowErrorMessage()
+			throws Throwable {
+		MockPerson loggedInPerson = new MockPerson();
+		LunchBuddySession.SINGLETON.setLoggedInUser(loggedInPerson);
+
+		Person lunchBuddy = new Person("2352", "Jonas", "Venture",
+				"jvenjr@venture.net");
+		Intent intent = new Intent();
+		intent.putExtra(FindLunchBuddyActivity.LUNCH_BUDDY_KEY, lunchBuddy);
+		setActivityIntent(intent);
+
+		final FindLunchBuddyActivity activity = getActivity();
+		checkBadDateTimeWillShowErrorMessage(activity, "12/14/2015", "bad time");
+
+		checkBadDateTimeWillShowErrorMessage(activity, "bad dates", "1:45 PM");
+		checkBadDateTimeWillShowErrorMessage(activity, "", "1:45 PM");
+		checkBadDateTimeWillShowErrorMessage(activity, "12/14/2015", "");
+		checkBadDateTimeWillShowErrorMessage(activity, "", "");
+	}
+
+	private void checkBadDateTimeWillShowErrorMessage(
+			final FindLunchBuddyActivity activity, final String date,
+			final String time) throws Throwable {
+		dialogHandler.reset();
+		runTestOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				TextView selectedTimeText = LunchBuddyTestCase
+						.assertIsOfTypeAndGet(TextView.class,
+								activity.findViewById(R.id.selectedTimeText));
+				TextView selectedDateText = LunchBuddyTestCase
+						.assertIsOfTypeAndGet(TextView.class,
+								activity.findViewById(R.id.selectedDateText));
+
+				selectedDateText.setText(date);
+				selectedTimeText.setText(time);
+				activity.onOptionsItemSelected(new MockMenuItem(
+						com.lunchlunch.R.id.createLunchButton));
+			}
+		});
+		assertEquals(activity, dialogHandler.getBaseContextForLastErrorDialog());
+		assertEquals("Please enter a date to schedule your lunch",
+				dialogHandler.getErrorMessageForLastErrorDialog());
+	}
+
+	public void testClickingAnotherButtonWillNotCreateALunch() throws Throwable {
+		MockPerson loggedInPerson = new MockPerson();
+		LunchBuddySession.SINGLETON.setLoggedInUser(loggedInPerson);
+
+		Person lunchBuddy = new Person("2352", "Jonas", "Venture",
+				"jvenjr@venture.net");
+		Intent intent = new Intent();
+		intent.putExtra(FindLunchBuddyActivity.LUNCH_BUDDY_KEY, lunchBuddy);
+		setActivityIntent(intent);
+
+		final FindLunchBuddyActivity activity = getActivity();
+
+		runTestOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+
+				activity.onOptionsItemSelected(new MockMenuItem(
+						com.lunchlunch.R.id.dateLabel));
+			}
+		});
+
+		assertNull(lunchCreator.getLunchForCreate());
+	}
+
+	public void testLunchCreationFailedWillShowErrorMessage() throws Exception {
+		MockPerson loggedInPerson = new MockPerson();
+		LunchBuddySession.SINGLETON.setLoggedInUser(loggedInPerson);
+
+		Person lunchBuddy = new Person("2352", "Jonas", "Venture",
+				"jvenjr@venture.net");
+		Intent intent = new Intent();
+		intent.putExtra(FindLunchBuddyActivity.LUNCH_BUDDY_KEY, lunchBuddy);
+		setActivityIntent(intent);
+
+		FindLunchBuddyActivity activity = getActivity();
+		activity.lunchCreationFailed();
+		assertEquals(activity, dialogHandler.getBaseContextForLastErrorDialog());
+		assertEquals(
+				"Error communicating with web service, please ensure you are connected to the internet and try again",
+				dialogHandler.getErrorMessageForLastErrorDialog());
+	}
+
+	public void testLunchCreatedWillFinishActivity() throws Exception {
+		MockPerson loggedInPerson = new MockPerson();
+		LunchBuddySession.SINGLETON.setLoggedInUser(loggedInPerson);
+
+		Person lunchBuddy = new Person("2352", "Jonas", "Venture",
+				"jvenjr@venture.net");
+		Intent intent = new Intent();
+		intent.putExtra(FindLunchBuddyActivity.LUNCH_BUDDY_KEY, lunchBuddy);
+		setActivityIntent(intent);
+
+		FindLunchBuddyActivity activity = getActivity();
+		activity.lunchCreated();
+
+		assertTrue(activity.isFinishing());
 	}
 }
