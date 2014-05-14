@@ -2,12 +2,135 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:onClick="selectTimeClicked"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.lunchlunch.FindLunchBuddy$PlaceholderFragment" >
 
+    <TextView
+        android:id="@+id/buddyLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/headerBackground"
+        android:text="@string/buddy"
+        android:textColor="@color/black" />
 
+    <TextView
+        android:id="@+id/lastNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/firstNameText"
+        android:layout_below="@+id/firstNameText"
+        android:layout_marginTop="16dp"
+        android:text="@string/lastName"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/emailText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/lastNameText"
+        android:layout_below="@+id/lastNameText"
+        android:layout_marginTop="18dp"
+        android:text="@string/email"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/firstNameTextValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/firstNameText"
+        android:layout_alignBottom="@+id/firstNameText"
+        android:layout_marginLeft="18dp"
+        android:layout_toRightOf="@+id/firstNameText"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/lastNameTextValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lastNameText"
+        android:layout_alignBottom="@+id/lastNameText"
+        android:layout_alignLeft="@+id/firstNameTextValue"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/emailTextValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/emailText"
+        android:layout_alignBottom="@+id/emailText"
+        android:layout_alignLeft="@+id/lastNameTextValue"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/firstNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buddyLabel"
+        android:layout_below="@+id/buddyLabel"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/firstName"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/dateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/selectDateLabel"
+        android:layout_alignLeft="@+id/selectDateLabel"
+        android:layout_alignRight="@+id/buddyLabel"
+        android:layout_marginBottom="16dp"
+        android:background="@color/headerBackground"
+        android:text="@string/dateLabel"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/selectDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buddyLabel"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        android:onClick="selectDateClicked"
+        android:text="@string/selectDate"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/holo_blue_dark" />
+
+    <TextView
+        android:id="@+id/selectedDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/selectDateLabel"
+        android:layout_alignBottom="@+id/selectDateLabel"
+        android:layout_alignLeft="@+id/emailTextValue"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/selectTimeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/selectDateLabel"
+        android:layout_below="@+id/selectedDateText"
+        android:layout_marginTop="17dp"
+        android:text="@string/selectTime"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/holo_blue_dark" />
+
+    <TextView
+        android:id="@+id/selectedTimeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/selectTimeLabel"
+        android:layout_alignBottom="@+id/selectTimeLabel"
+        android:layout_alignLeft="@+id/selectedDateText"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

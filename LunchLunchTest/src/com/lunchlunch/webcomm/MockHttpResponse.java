@@ -8,11 +8,13 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.StatusLine;
+import org.apache.http.message.BasicStatusLine;
 import org.apache.http.params.HttpParams;
 
 public class MockHttpResponse implements HttpResponse {
 
 	private HttpEntity entityToReturn = new MockHttpEntity();
+	private StatusLine statusLine;
 
 	@Override
 	public void addHeader(Header arg0) {
@@ -111,7 +113,7 @@ public class MockHttpResponse implements HttpResponse {
 
 	@Override
 	public StatusLine getStatusLine() {
-		return null;
+		return statusLine;
 	}
 
 	@Override
@@ -131,6 +133,8 @@ public class MockHttpResponse implements HttpResponse {
 
 	@Override
 	public void setStatusCode(int arg0) throws IllegalStateException {
+		this.statusLine = new BasicStatusLine(new ProtocolVersion("", 0, 0),
+				arg0, "reason");
 
 	}
 

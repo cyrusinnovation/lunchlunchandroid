@@ -21,13 +21,13 @@ import com.lunchlunch.webcomm.HttpClientBuilderInterface;
 import com.lunchlunch.webcomm.ResponseHelper;
 import com.lunchlunch.webcomm.person.PersonParserInterface;
 
-public class LunchHelper implements LunchHelperInterface {
+public class LunchRetriever implements LunchRetrieverInterface {
 
 	private HttpClientBuilderInterface httpClientBuilder;
 	private PersonParserInterface personParser;
 	private LunchParserInterface lunchParser;
 
-	public LunchHelper(HttpClientBuilderInterface httpClientBuilder,
+	public LunchRetriever(HttpClientBuilderInterface httpClientBuilder,
 			PersonParserInterface personParser, LunchParserInterface lunchParser) {
 		this.httpClientBuilder = httpClientBuilder;
 		this.personParser = personParser;
@@ -75,7 +75,6 @@ public class LunchHelper implements LunchHelperInterface {
 						"UTF-8");
 				HttpGet httpGet = new HttpGet(LunchBuddyConstants.SERVICE_URL
 						+ "/getLunches?person=" + encodedPerson);
-
 				HttpResponse response = client.execute(httpGet);
 				String result = ResponseHelper
 						.getResponseContentsAsString(response);

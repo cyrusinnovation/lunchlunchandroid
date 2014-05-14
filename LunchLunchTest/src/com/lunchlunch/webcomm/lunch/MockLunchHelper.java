@@ -2,7 +2,7 @@ package com.lunchlunch.webcomm.lunch;
 
 import com.lunchlunch.model.person.PersonInterface;
 
-public class MockLunchHelper implements LunchHelperInterface {
+public class MockLunchHelper implements LunchRetrieverInterface {
 
 	private PersonInterface personPassedIn;
 	private LunchReceiver lunchReceiverPassedIn;

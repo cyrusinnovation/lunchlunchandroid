@@ -15,7 +15,7 @@ import com.lunchlunch.model.lunch.LunchInterface;
 import com.lunchlunch.model.lunch.MockLunch;
 import com.lunchlunch.model.person.MockPerson;
 import com.lunchlunch.view.FragmentTestCase;
-import com.lunchlunch.webcomm.lunch.LunchHelperProviderTestUtility;
+import com.lunchlunch.webcomm.lunch.LunchRetrieverProviderTestUtility;
 import com.lunchlunch.webcomm.lunch.LunchReceiver;
 import com.lunchlunch.webcomm.lunch.MockLunchHelper;
 
@@ -48,7 +48,7 @@ public class LunchListFragmentTest extends FragmentTestCase<LunchListActivity> {
 	protected void setUp() throws Exception {
 		super.setUp();
 		lunchHelper = new MockLunchHelper();
-		LunchHelperProviderTestUtility.setLunchHelperToProvide(lunchHelper);
+		LunchRetrieverProviderTestUtility.setLunchHelperToProvide(lunchHelper);
 
 		LunchListFragment fragment = new LunchListFragment();
 		this.lunchListFragment = (LunchListFragment) startFragment(fragment);
@@ -58,7 +58,7 @@ public class LunchListFragmentTest extends FragmentTestCase<LunchListActivity> {
 	@Override
 	protected void tearDown() throws Exception {
 		lunchHelper = null;
-		LunchHelperProviderTestUtility.resetLunchHelperProvider();
+		LunchRetrieverProviderTestUtility.resetLunchHelperProvider();
 		super.tearDown();
 	}
 

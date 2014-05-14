@@ -12,10 +12,10 @@ public class DialogHandlerProviderTest extends LunchBuddyTestCase {
 
 	public void testBuildDialogHandler() throws Exception {
 		DialogHandler provider = assertIsOfTypeAndGet(DialogHandler.class,
-				DialogHandlerProvider.SINGLETON.providerDialogHandler());
-		assertEquals(AlertDialogProvider.SINGLETON,
-				provider.getAlertDialogProvider());
+				DialogHandlerProvider.SINGLETON.provideDialogHandler());
+		assertEquals(DialogProvider.SINGLETON,
+				provider.getDialogProvider());
 		assertSame(provider,
-				DialogHandlerProvider.SINGLETON.providerDialogHandler());
+				DialogHandlerProvider.SINGLETON.provideDialogHandler());
 	}
 }

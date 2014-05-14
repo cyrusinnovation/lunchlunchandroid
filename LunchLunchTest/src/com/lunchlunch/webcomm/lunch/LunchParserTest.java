@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.lunchlunch.LunchBuddyConstants;
 import com.lunchlunch.LunchBuddyTestCase;
+import com.lunchlunch.model.lunch.Lunch;
 import com.lunchlunch.model.lunch.LunchInterface;
 import com.lunchlunch.model.person.MockPerson;
 import com.lunchlunch.model.person.Person;
@@ -54,6 +55,33 @@ public class LunchParserTest extends LunchBuddyTestCase {
 				lunches.get(1));
 		checkLunch(aramis, athos, dateMaker.parse(lunch3DateTimeString),
 				lunches.get(2));
+	}
+
+	public void testCreateLunchJSON() throws Exception {
+		Person person1 = new Person("23525cxz", "Hank", "Venture",
+				"hankinator@venture.net");
+		Person person2 = new Person("vxfghsdfds", "Dean", "Venture",
+				"leehontok@venture.net");
+		Date lunchDate = new Date(235235235);
+		Lunch lunch = new Lunch(person1, person2, lunchDate);
+		SimpleDateFormat dateMaker = new SimpleDateFormat(
+				LunchBuddyConstants.JSON_DATE_FORMAT, Locale.US);
+
+		JSONObject lunchJson = LunchParser.SINGLETON.createLunchJSON(lunch);
+
+		checkPersonJSON(person1, lunchJson.getJSONObject("person1"));
+		checkPersonJSON(person2, lunchJson.getJSONObject("person2"));
+		assertEquals(dateMaker.format(lunchDate),
+				lunchJson.getString("dateTime"));
+
+	}
+
+	private void checkPersonJSON(Person person, JSONObject jsonObject)
+			throws JSONException {
+		assertEquals(person.getId(), jsonObject.getString("_id"));
+		assertEquals(person.getFirstName(), jsonObject.getString("firstName"));
+		assertEquals(person.getLastName(), jsonObject.getString("lastName"));
+		assertEquals(person.getEmail(), jsonObject.getString("email"));
 	}
 
 	public void testWillSkipAnyLunchesWithBrokenJSON() throws Exception {

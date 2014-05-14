@@ -15,5 +15,11 @@
     <string name="title_activity_lunch_detail">Lunch Details</string>
     <string name="find_buddy">Find Buddy</string>
     <string name="title_activity_find_lunch_buddy">How About...</string>
+    <string name="buddy">Buddy</string>
+    <string name="firstName">First Name:</string>
+    <string name="lastName">Last Name:</string>
+    <string name="selectDate">Select Date...</string>
+    <string name="selectTime">Select Time...</string>
+    <string name="sure">Sure!</string>
 
 </resources>

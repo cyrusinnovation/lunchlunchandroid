@@ -12,8 +12,8 @@ import android.widget.ListView;
 
 import com.lunchlunch.model.LunchBuddySession;
 import com.lunchlunch.model.lunch.LunchInterface;
-import com.lunchlunch.webcomm.lunch.LunchHelperInterface;
-import com.lunchlunch.webcomm.lunch.LunchHelperProvider;
+import com.lunchlunch.webcomm.lunch.LunchRetrieverInterface;
+import com.lunchlunch.webcomm.lunch.LunchRetrieverProvider;
 import com.lunchlunch.webcomm.lunch.LunchReceiver;
 
 public class LunchListFragment extends ListFragment implements LunchReceiver {
@@ -48,8 +48,8 @@ public class LunchListFragment extends ListFragment implements LunchReceiver {
 		listAdapter = new ArrayAdapter<LunchInterface>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, new ArrayList<LunchInterface>());
-		LunchHelperInterface lunchHelper = LunchHelperProvider.SINGLETON
-				.provideLunchHelper();
+		LunchRetrieverInterface lunchHelper = LunchRetrieverProvider.SINGLETON
+				.provideLunchRetriever();
 		lunchHelper.getLunches(LunchBuddySession.SINGLETON.getUserLoggedIn(),
 				this);
 

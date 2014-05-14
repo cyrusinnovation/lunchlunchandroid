@@ -22,7 +22,7 @@ import com.lunchlunch.webcomm.MockHttpClient;
 import com.lunchlunch.webcomm.MockHttpClientBuilder;
 import com.lunchlunch.webcomm.person.MockPersonParser;
 
-public class LunchHelperTest extends LunchBuddyTestCase {
+public class LunchRetrieverTest extends LunchBuddyTestCase {
 
 	private CountDownLatch countdown;
 
@@ -39,15 +39,15 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 	}
 
 	public void testImplementsInterface() throws Exception {
-		assertEquals(LunchHelperInterface.class,
-				LunchHelper.class.getInterfaces()[0]);
+		assertEquals(LunchRetrieverInterface.class,
+				LunchRetriever.class.getInterfaces()[0]);
 	}
 
 	public void testCanGetConstructorArguments() throws Exception {
 		MockHttpClientBuilder httpClientBuilder = new MockHttpClientBuilder();
 		MockPersonParser personParser = new MockPersonParser();
 		MockLunchParser lunchParser = new MockLunchParser();
-		LunchHelper lunchHelper = new LunchHelper(httpClientBuilder,
+		LunchRetriever lunchHelper = new LunchRetriever(httpClientBuilder,
 				personParser, lunchParser);
 
 		assertEquals(httpClientBuilder, lunchHelper.getHttpClientBuilder());
@@ -64,7 +64,7 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 
 		JSONObject jsonToReturn = new JSONObject("{some:stuff,goes:here}");
 		personParser.setJsonToReturn(jsonToReturn);
-		LunchHelperInterface lunchHelper = new LunchHelper(httpClientBuilder,
+		LunchRetrieverInterface lunchHelper = new LunchRetriever(httpClientBuilder,
 				personParser, lunchParser);
 
 		MockHttpClient httpClientToReturn = new MockHttpClient();
@@ -92,7 +92,7 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 		MockLunchParser lunchParser = new MockLunchParser();
 
 		personParser.setJsonToReturn(new JSONObject("{some:stuff,goes:here}"));
-		LunchHelperInterface lunchHelper = new LunchHelper(httpClientBuilder,
+		LunchRetrieverInterface lunchHelper = new LunchRetriever(httpClientBuilder,
 				personParser, lunchParser);
 
 		String responseContents = "[{this:should}, {look:like}, {json:somewhat}]";
@@ -126,7 +126,7 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 		lunchParser.setLunchesToReturn(expectedLunches);
 
 		personParser.setJsonToReturn(new JSONObject("{some:stuff,goes:here}"));
-		LunchHelperInterface lunchHelper = new LunchHelper(httpClientBuilder,
+		LunchRetrieverInterface lunchHelper = new LunchRetriever(httpClientBuilder,
 				personParser, lunchParser);
 
 		String responseContents = "[{this:should}, {look:like}, {json:somewhat}]";
@@ -148,7 +148,7 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 		MockLunchParser lunchParser = new MockLunchParser();
 
 		personParser.setJsonToReturn(new JSONObject("{some:stuff,goes:here}"));
-		LunchHelperInterface lunchHelper = new LunchHelper(httpClientBuilder,
+		LunchRetrieverInterface lunchHelper = new LunchRetriever(httpClientBuilder,
 				personParser, lunchParser);
 
 		String responseContents = "kablammo";
@@ -173,7 +173,7 @@ public class LunchHelperTest extends LunchBuddyTestCase {
 		MockLunchParser lunchParser = new MockLunchParser();
 
 		personParser.setJsonToReturn(new JSONObject("{some:stuff,goes:here}"));
-		LunchHelperInterface lunchHelper = new LunchHelper(httpClientBuilder,
+		LunchRetrieverInterface lunchHelper = new LunchRetriever(httpClientBuilder,
 				personParser, lunchParser);
 
 		MockLunchReceiver lunchReceiver = new MockLunchReceiver(countdown);

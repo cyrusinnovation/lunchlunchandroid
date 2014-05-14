@@ -53,4 +53,24 @@ public class LunchParser implements LunchParserInterface {
 		return lunches;
 	}
 
+	@Override
+	public JSONObject createLunchJSON(LunchInterface lunch) {
+		JSONObject lunchJSON = new JSONObject();
+		try {
+			JSONObject person1Json = PersonParser.SINGLETON
+					.buildJSONFromPerson(lunch.getPerson1());
+			JSONObject person2Json = PersonParser.SINGLETON
+					.buildJSONFromPerson(lunch.getPerson2());
+			SimpleDateFormat dateFormatter = new SimpleDateFormat(
+					LunchBuddyConstants.JSON_DATE_FORMAT, Locale.getDefault());
+			lunchJSON.put("person1", person1Json);
+			lunchJSON.put("person2", person2Json);
+			lunchJSON
+					.put("dateTime", dateFormatter.format(lunch.getDateTime()));
+		} catch (JSONException exceptionThatCannotHappen) {
+
+		}
+		return lunchJSON;
+	}
+
 }

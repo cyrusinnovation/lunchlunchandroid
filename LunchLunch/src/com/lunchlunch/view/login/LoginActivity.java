@@ -62,7 +62,7 @@ public class LoginActivity extends Activity implements PersonReceiver {
 					ActivityStarter.SINGLETON));
 		} else {
 			DialogHandlerInterface dialogHandler = DialogHandlerProvider.SINGLETON
-					.providerDialogHandler();
+					.provideDialogHandler();
 			dialogHandler
 					.showErrorDialog(this, getString(R.string.login_error));
 		}

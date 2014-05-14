@@ -6,10 +6,10 @@ public class DialogHandlerProvider {
 	private DialogHandlerInterface dialogHandler;
 
 	private DialogHandlerProvider() {
-		dialogHandler = new DialogHandler(AlertDialogProvider.SINGLETON);
+		dialogHandler = new DialogHandler(DialogProvider.SINGLETON);
 	}
 
-	public DialogHandlerInterface providerDialogHandler() {
+	public DialogHandlerInterface provideDialogHandler() {
 		return dialogHandler;
 	}
 

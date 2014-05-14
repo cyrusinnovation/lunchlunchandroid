@@ -9,7 +9,7 @@ public class DialogHandlerProviderTestUtility {
 			DialogHandlerInterface dialogHandlerInterface)
 			throws IllegalAccessException, IllegalArgumentException,
 			NoSuchFieldException {
-		original = DialogHandlerProvider.SINGLETON.providerDialogHandler();
+		original = DialogHandlerProvider.SINGLETON.provideDialogHandler();
 
 		ReflectionHelper.setValueForPrivateField(dialogHandlerInterface,
 				"dialogHandler", DialogHandlerProvider.class,
