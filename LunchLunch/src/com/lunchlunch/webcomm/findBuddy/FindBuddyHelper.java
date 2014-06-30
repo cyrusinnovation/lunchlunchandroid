@@ -1,11 +1,11 @@
 package com.lunchlunch.webcomm.findBuddy;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -64,12 +64,17 @@ public class FindBuddyHelper implements FindBuddyHelperInterface {
 			HttpClient client = httpClientBuilder.buildConnection();
 			JSONObject personJSON = personParser
 					.buildJSONFromPerson(buddySeeker);
+			JSONObject bodyJSON = new JSONObject();
 			try {
-				String encodedPerson = URLEncoder.encode(personJSON.toString(),
-						"UTF-8");
-				HttpGet httpGet = new HttpGet(LunchBuddyConstants.SERVICE_URL
-						+ "/findBuddy?person=" + encodedPerson);
-				HttpResponse response = client.execute(httpGet);
+				bodyJSON.put("person", personJSON);
+				HttpPost post = new HttpPost(LunchBuddyConstants.SERVICE_URL
+						+ "/findBuddy");
+				String jsonString = bodyJSON.toString();
+				post.setEntity(new StringEntity(jsonString));
+				post.setHeader("Accept", "application/json");
+				post.setHeader("Content-type", "application/json");
+				HttpResponse response = client.execute(post);
+				
 				String result = ResponseHelper
 						.getResponseContentsAsString(response);
 				PersonInterface buildPersonFromJSON = personParser

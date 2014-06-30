@@ -1,13 +1,13 @@
 package com.lunchlunch.webcomm.lunch;
 
+import java.io.InputStream;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -64,6 +64,9 @@ public class LunchRetrieverTest extends LunchBuddyTestCase {
 
 		JSONObject jsonToReturn = new JSONObject("{some:stuff,goes:here}");
 		personParser.setJsonToReturn(jsonToReturn);
+		
+		JSONObject expectedJSON = new JSONObject();
+		expectedJSON.put("person", jsonToReturn);
 		LunchRetrieverInterface lunchHelper = new LunchRetriever(httpClientBuilder,
 				personParser, lunchParser);
 
@@ -76,12 +79,19 @@ public class LunchRetrieverTest extends LunchBuddyTestCase {
 
 		assertEquals(person, personParser.getPersonForBuildJSON());
 
-		HttpGet httpGet = assertIsOfTypeAndGet(HttpGet.class,
+		HttpPost httpPost = assertIsOfTypeAndGet(HttpPost.class,
 				httpClientToReturn.getRequestPassedToExecute());
-		String encodedPerson = URLEncoder.encode(jsonToReturn.toString(),
-				"UTF-8");
 		assertEquals(new URI(com.lunchlunch.LunchBuddyConstants.SERVICE_URL
-				+ "/getLunches?person=" + encodedPerson), httpGet.getURI());
+				+ "/getLunches"), httpPost.getURI());
+		InputStream content = httpPost.getEntity().getContent();
+		byte[] entityContents = new byte[content.available()];
+		content.read(entityContents);
+		assertEquals(expectedJSON.toString(), new String(entityContents));
+		assertEquals("application/json",
+				httpPost.getHeaders("Accept")[0].getValue());
+		assertEquals("application/json",
+				httpPost.getHeaders("Content-type")[0].getValue());
+		
 	}
 
 	@UiThreadTest

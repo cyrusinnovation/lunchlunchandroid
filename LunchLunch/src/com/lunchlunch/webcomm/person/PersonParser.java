@@ -34,7 +34,7 @@ public class PersonParser implements PersonParserInterface {
 			personJSON.put("firstName", person.getFirstName());
 			personJSON.put("lastName", person.getLastName());
 			personJSON.put("email", person.getEmail());
-		} catch (JSONException exceptionThatCaannotHappen) {
+		} catch (JSONException exceptionThatCannotHappen) {
 		}
 		return personJSON;
 	}

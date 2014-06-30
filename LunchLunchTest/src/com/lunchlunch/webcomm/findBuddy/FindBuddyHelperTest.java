@@ -1,11 +1,11 @@
 package com.lunchlunch.webcomm.findBuddy;
 
+import java.io.InputStream;
 import java.net.URI;
-import java.net.URLEncoder;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.json.JSONObject;
 
 import android.test.UiThreadTest;
@@ -61,7 +61,10 @@ public class FindBuddyHelperTest extends LunchBuddyTestCase {
 
 		JSONObject jsonToReturn = new JSONObject("{some:stuff,goes:here}");
 		personParser.setJsonToReturn(jsonToReturn);
-
+		JSONObject expectedJSON = new JSONObject();
+		expectedJSON.put("person", jsonToReturn);
+		
+		
 		MockHttpClient httpClientToReturn = new MockHttpClient();
 
 		httpClientBuilder.setHttpClientToReturn(httpClientToReturn);
@@ -72,12 +75,18 @@ public class FindBuddyHelperTest extends LunchBuddyTestCase {
 
 		assertEquals(buddySeeker, personParser.getPersonForBuildJSON());
 
-		HttpGet httpGet = assertIsOfTypeAndGet(HttpGet.class,
+		HttpPost httpPost = assertIsOfTypeAndGet(HttpPost.class,
 				httpClientToReturn.getRequestPassedToExecute());
-		String encodedPerson = URLEncoder.encode(jsonToReturn.toString(),
-				"UTF-8");
 		assertEquals(new URI(com.lunchlunch.LunchBuddyConstants.SERVICE_URL
-				+ "/findBuddy?person=" + encodedPerson), httpGet.getURI());
+				+ "/findBuddy"), httpPost.getURI());
+		InputStream content = httpPost.getEntity().getContent();
+		byte[] entityContents = new byte[content.available()];
+		content.read(entityContents);
+		assertEquals(expectedJSON.toString(), new String(entityContents));
+		assertEquals("application/json",
+				httpPost.getHeaders("Accept")[0].getValue());
+		assertEquals("application/json",
+				httpPost.getHeaders("Content-type")[0].getValue());
 	}
 
 	@UiThreadTest

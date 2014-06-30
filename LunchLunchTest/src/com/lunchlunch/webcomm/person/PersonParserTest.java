@@ -48,6 +48,7 @@ public class PersonParserTest extends LunchBuddyTestCase {
 		JSONObject json = PersonParser.SINGLETON
 				.buildJSONFromPerson(new Person(expectedId, expectedFirstName,
 						expectedLastName, expectedEmail));
+		
 		assertEquals(expectedId, json.get("_id"));
 		assertEquals(expectedFirstName, json.get("firstName"));
 		assertEquals(expectedLastName, json.get("lastName"));

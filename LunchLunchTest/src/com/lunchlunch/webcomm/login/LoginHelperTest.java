@@ -1,10 +1,11 @@
 package com.lunchlunch.webcomm.login;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.json.JSONObject;
 
 import android.test.UiThreadTest;
@@ -56,13 +57,24 @@ public class LoginHelperTest extends LunchBuddyTestCase {
 		httpClientBuilder.setHttpClientToReturn(httpClientToReturn);
 
 		String email = "thisistheemail@someplace.com";
+		JSONObject emailJson = new JSONObject();
+		emailJson.accumulate("email", email);
 		loginProvider.login(email, new MockPersonReceiver(countdown));
 		countdown.await(10, TimeUnit.SECONDS);
-		HttpGet httpGet = assertIsOfTypeAndGet(HttpGet.class,
+		
+		HttpPost httpPost = assertIsOfTypeAndGet(HttpPost.class,
 				httpClientToReturn.getRequestPassedToExecute());
-
 		assertEquals(new URI(com.lunchlunch.LunchBuddyConstants.SERVICE_URL
-				+ "/login?email=" + email), httpGet.getURI());
+				+ "/login"), httpPost.getURI());
+		InputStream content = httpPost.getEntity().getContent();
+		byte[] entityContents = new byte[content.available()];
+		content.read(entityContents);
+		assertEquals(emailJson.toString(), new String(entityContents));
+		assertEquals("application/json",
+				httpPost.getHeaders("Accept")[0].getValue());
+		assertEquals("application/json",
+				httpPost.getHeaders("Content-type")[0].getValue());
+		
 	}
 
 	@UiThreadTest

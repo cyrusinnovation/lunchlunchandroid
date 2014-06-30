@@ -1,13 +1,13 @@
 package com.lunchlunch.webcomm.lunch;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,11 +71,16 @@ public class LunchRetriever implements LunchRetrieverInterface {
 				HttpClient client = httpClientBuilder.buildConnection();
 				JSONObject personJSON = personParser
 						.buildJSONFromPerson(person);
-				String encodedPerson = URLEncoder.encode(personJSON.toString(),
-						"UTF-8");
-				HttpGet httpGet = new HttpGet(LunchBuddyConstants.SERVICE_URL
-						+ "/getLunches?person=" + encodedPerson);
-				HttpResponse response = client.execute(httpGet);
+				JSONObject bodyJSON = new JSONObject();
+				bodyJSON.put("person", personJSON);
+				
+				HttpPost post = new HttpPost(LunchBuddyConstants.SERVICE_URL
+						+ "/getLunches");
+				String jsonString = bodyJSON.toString();
+				post.setEntity(new StringEntity(jsonString));
+				post.setHeader("Accept", "application/json");
+				post.setHeader("Content-type", "application/json");
+				HttpResponse response = client.execute(post);
 				String result = ResponseHelper
 						.getResponseContentsAsString(response);
 				lunches = lunchParser.parseLunches(new JSONArray(result));

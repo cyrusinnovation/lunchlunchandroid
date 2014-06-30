@@ -4,7 +4,8 @@ import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,10 +35,13 @@ public class LoginHelper implements LoginHelperInterface {
 		protected PersonInterface doInBackground(String... params) {
 			HttpClient client = httpClientBuilder.buildConnection();
 			try {
-				HttpGet httpGet = new HttpGet(LunchBuddyConstants.SERVICE_URL
-						+ "/login?email=" + email);
-
-				HttpResponse response = client.execute(httpGet);
+				HttpPost post = new HttpPost(LunchBuddyConstants.SERVICE_URL +"/login");
+				JSONObject emailJson = new JSONObject();
+				emailJson.accumulate("email", email);
+				post.setEntity(new StringEntity(emailJson.toString()));
+				post.setHeader("Accept", "application/json");
+				post.setHeader("Content-type", "application/json");
+				HttpResponse response = client.execute(post);
 				String result = ResponseHelper
 						.getResponseContentsAsString(response);
 

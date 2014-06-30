@@ -12,9 +12,9 @@ import android.widget.ListView;
 
 import com.lunchlunch.model.LunchBuddySession;
 import com.lunchlunch.model.lunch.LunchInterface;
+import com.lunchlunch.webcomm.lunch.LunchReceiver;
 import com.lunchlunch.webcomm.lunch.LunchRetrieverInterface;
 import com.lunchlunch.webcomm.lunch.LunchRetrieverProvider;
-import com.lunchlunch.webcomm.lunch.LunchReceiver;
 
 public class LunchListFragment extends ListFragment implements LunchReceiver {
 
